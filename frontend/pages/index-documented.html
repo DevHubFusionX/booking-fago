@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- 
+    HOMEPAGE - MAIN LANDING PAGE
+    ============================
+    
+    This is the main homepage of Fago's Booking website.
+    
+    Features:
+    - Hero section with animated background and search functionality
+    - Featured hotels grid with skeleton loading
+    - Deals and offers carousel
+    - Why choose us section with trust indicators
+    - Customer testimonials slider with auto-rotation
+    - Newsletter signup section
+    - Responsive design with mobile-first approach
+    - AOS (Animate On Scroll) animations
+    - Authentication-aware navigation
+    
+    Dependencies:
+    - AOS library for scroll animations
+    - Font Awesome for icons
+    - Custom CSS files for styling and animations
+    - JavaScript components for functionality
+    
+    Author: Fago's Booking Team
+    Version: 1.0.0
+  -->
+  
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FAGO - Book Your Dream Stay Today</title>
+  
+  <!-- CSS Dependencies -->
+  <link rel="stylesheet" href="../public/css/style.css">                    <!-- Main stylesheet -->
+  <link rel="stylesheet" href="../public/css/skeleton.css">                <!-- Loading skeleton styles -->
+  <link rel="stylesheet" href="../public/css/auth-navbar.css">             <!-- Authentication navbar styles -->
+  <link rel="stylesheet" href="../public/css/homepage-animations.css">     <!-- Homepage animation styles -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"> <!-- Font Awesome icons -->
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">  <!-- AOS animation library -->
+</head>
+<body>
+  <!-- 
+    NAVIGATION HEADER
+    =================
+    Responsive navigation bar with logo, menu links, and authentication section
+    Includes mobile hamburger menu for smaller screens
+  -->
+  <header class="navbar animate-fade-in">
+    <div class="nav-container">
+      <!-- Logo Section -->
+      <div class="logo">
+        <h2>FAGO</h2>
+      </div>
+      
+      <!-- Desktop Navigation Links -->
+      <!-- Each link has staggered animation delays for smooth entrance effect -->
+      <nav class="nav-links">
+        <a href="/" class="animate-slide-in" style="animation-delay: 0.1s">Home</a>
+        <a href="/hotels" class="animate-slide-in" style="animation-delay: 0.2s">Hotels</a>
+        <a href="/deals" class="animate-slide-in" style="animation-delay: 0.3s">Deals</a>
+        <a href="/about" class="animate-slide-in" style="animation-delay: 0.4s">About</a>
+        <a href="/contact" class="animate-slide-in" style="animation-delay: 0.5s">Contact</a>
+      </nav>
+      
+      <!-- Authentication Section -->
+      <!-- This will be dynamically updated by auth-navbar.js based on login status -->
+      <div class="nav-auth">
+        <a href="/login" class="login-btn animate-slide-in" style="animation-delay: 0.6s">Login / Sign Up</a>
+      </div>
+      
+      <!-- Mobile Menu Toggle Button -->
+      <div class="mobile-menu" id="mobile-menu">
+        <i class="fas fa-bars"></i>
+      </div>
+    </div>
+  </header>
+
+  <!-- 
+    HERO SECTION
+    ============
+    Main banner with background image, headline, and hotel search form
+    Features animated elements and responsive search functionality
+  -->
+  <section class="hero" id="hero">
+    <!-- Dark overlay for better text readability over background image -->
+    <div class="hero-overlay"></div>
+    
+    <div class="hero-content">
+      <!-- Main Headline with fade-up animation -->
+      <h1 class="animate-fade-up">Book Your Dream Stay Today</h1>
+      <p class="hero-subtitle animate-fade-up" style="animation-delay: 0.3s">Find hotels, resorts, and apartments at the best prices</p>
+      
+      <!-- Hotel Search Form -->
+      <!-- Allows users to search for hotels by destination, dates, and guest count -->
+      <div class="search-container animate-slide-up" style="animation-delay: 0.6s">
+        <form class="search-form" action="/hotels" method="GET">
+          <div class="search-grid">
+            <!-- Destination Input -->
+            <div class="search-field">
+              <i class="fas fa-map-marker-alt"></i>
+              <input type="text" name="destination" placeholder="Destination" required>
+            </div>
+            
+            <!-- Check-in Date -->
+            <div class="search-field">
+              <i class="fas fa-calendar-alt"></i>
+              <input type="date" name="checkin" id="checkin" required>
+            </div>
+            
+            <!-- Check-out Date -->
+            <div class="search-field">
+              <i class="fas fa-calendar-alt"></i>
+              <input type="date" name="checkout" id="checkout" required>
+            </div>
+            
+            <!-- Guest Count Selector -->
+            <div class="search-field">
+              <i class="fas fa-users"></i>
+              <select name="guests">
+                <option value="1">1 Guest</option>
+                <option value="2">2 Guests</option>
+                <option value="3">3 Guests</option>
+                <option value="4">4+ Guests</option>
+              </select>
+            </div>
+            
+            <!-- Search Submit Button -->
+            <button type="submit" class="search-btn">Search Hotels</button>
+          </div>
+        </form>
+      </div>
+      
+      <!-- Call-to-Action Button -->
+      <a href="/hotels" class="cta-btn animate-fade-up" style="animation-delay: 0.9s">Explore Hotels</a>
+    </div>
+  </section>
+
+  <!-- 
+    FEATURED HOTELS SECTION
+    =======================
+    Displays a grid of featured hotels loaded dynamically via JavaScript
+    Uses skeleton loading for better user experience
+  -->
+  <section class="featured-section">
+    <div class="container">
+      <h2 class="section-title" data-aos="fade-up">Featured Hotels</h2>
+      
+      <!-- Hotels Grid Container -->
+      <!-- Content loaded dynamically by loadHotels() function -->
+      <div class="hotels-grid skeleton-container" id="hotels-grid">
+        <!-- Hotels loaded by JavaScript -->
+      </div>
+    </div>
+  </section>
+
+  <!-- 
+    DEALS & OFFERS SECTION
+    ======================
+    Carousel-style display of current deals and promotional offers
+    Each deal card has staggered animations
+  -->
+  <section class="deals-section" id="deals">
+    <div class="container">
+      <h2 class="section-title" data-aos="fade-up">Deals & Offers</h2>
+      
+      <div class="deals-carousel" data-aos="fade-up" data-aos-delay="200">
+        <!-- Weekend Deals Card -->
+        <div class="deal-card" data-aos="slide-right" data-aos-delay="100">
+          <div class="deal-badge">50% OFF</div>
+          <h3>Weekend Stays</h3>
+          <p>Perfect for short breaks and city escapes</p>
+          <button class="deal-btn">Book Now</button>
+        </div>
+        
+        <!-- Couples Package Card -->
+        <div class="deal-card" data-aos="slide-right" data-aos-delay="200">
+          <div class="deal-badge">COUPLES</div>
+          <h3>Romantic Package</h3>
+          <p>Special deals for couples and honeymoons</p>
+          <button class="deal-btn">Book Now</button>
+        </div>
+        
+        <!-- Early Bird Deals Card -->
+        <div class="deal-card" data-aos="slide-right" data-aos-delay="300">
+          <div class="deal-badge">EARLY BIRD</div>
+          <h3>Book in Advance</h3>
+          <p>Save more when you plan ahead</p>
+          <button class="deal-btn">Book Now</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 
+    WHY CHOOSE US SECTION
+    ====================
+    Trust indicators and value propositions
+    Grid layout with icons and descriptions
+  -->
+  <section class="trust-section">
+    <div class="container">
+      <h2 class="section-title" data-aos="fade-up">Why Choose Us</h2>
+      
+      <div class="trust-grid">
+        <!-- Hotel Count Indicator -->
+        <div class="trust-item" data-aos="zoom-in" data-aos-delay="100">
+          <div class="trust-icon">
+            <i class="fas fa-hotel"></i>
+          </div>
+          <h3>10,000+ Hotels Worldwide</h3>
+          <p>Extensive selection across the globe</p>
+        </div>
+        
+        <!-- Security Indicator -->
+        <div class="trust-item" data-aos="zoom-in" data-aos-delay="200">
+          <div class="trust-icon">
+            <i class="fas fa-credit-card"></i>
+          </div>
+          <h3>Secure Payment</h3>
+          <p>Your transactions are safe with us</p>
+        </div>
+        
+        <!-- Support Indicator -->
+        <div class="trust-item" data-aos="zoom-in" data-aos-delay="300">
+          <div class="trust-icon">
+            <i class="fas fa-clock"></i>
+          </div>
+          <h3>24/7 Support</h3>
+          <p>Round-the-clock customer assistance</p>
+        </div>
+        
+        <!-- Trust Indicator -->
+        <div class="trust-item" data-aos="zoom-in" data-aos-delay="400">
+          <div class="trust-icon">
+            <i class="fas fa-star"></i>
+          </div>
+          <h3>Trusted by Travelers</h3>
+          <p>Millions of satisfied customers</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 
+    CUSTOMER TESTIMONIALS SECTION
+    =============================
+    Interactive slider showing customer reviews and ratings
+    Features manual navigation and auto-rotation
+  -->
+  <section class="testimonials-section">
+    <div class="container">
+      <h2 class="section-title" data-aos="fade-up">What Our Customers Say</h2>
+      
+      <div class="testimonials-slider" data-aos="fade-up" data-aos-delay="200">
+        <!-- Testimonial Card -->
+        <!-- Content updated dynamically by JavaScript slider -->
+        <div class="testimonial-card active">
+          <div class="stars">
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+          </div>
+          <p>"Amazing service and great hotels. The booking process was seamless and the customer support was outstanding!"</p>
+          <div class="reviewer">
+            <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=60&h=60&fit=crop&crop=face" alt="Sarah">
+            <div>
+              <span class="name">Sarah Johnson</span>
+              <span class="location">New York, USA</span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Slider Controls -->
+        <div class="slider-controls">
+          <button class="slider-btn prev"><i class="fas fa-chevron-left"></i></button>
+          <div class="slider-dots">
+            <span class="dot active"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+          </div>
+          <button class="slider-btn next"><i class="fas fa-chevron-right"></i></button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 
+    NEWSLETTER SIGNUP SECTION
+    =========================
+    Call-to-action for email newsletter subscription
+    Encourages users to sign up for exclusive deals
+  -->
+  <section class="newsletter-cta" data-aos="fade-up">
+    <div class="container">
+      <div class="newsletter-content">
+        <h2>Want exclusive travel deals? Subscribe now!</h2>
+        <p>Get the best offers delivered straight to your inbox</p>
+        
+        <!-- Newsletter Signup Form -->
+        <form class="newsletter-form">
+          <input type="email" placeholder="Enter your email address" class="newsletter-input">
+          <button type="submit" class="newsletter-btn">Subscribe</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- 
+    FOOTER SECTION
+    ==============
+    Site footer with company information, links, and social media
+    Multi-column layout with newsletter signup
+  -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <!-- Company Information -->
+        <div class="footer-section">
+          <h3>FAGO</h3>
+          <p>Your trusted partner for hotel bookings worldwide.</p>
+        </div>
+        
+        <!-- Company Links -->
+        <div class="footer-section">
+          <h4>Company</h4>
+          <a href="#about">About Us</a>
+          <a href="#careers">Careers</a>
+          <a href="#faqs">FAQs</a>
+          <a href="/contact">Contact</a>
+        </div>
+        
+        <!-- Social Media Links -->
+        <div class="footer-section">
+          <h4>Follow Us</h4>
+          <div class="social-links">
+            <a href="#"><i class="fab fa-facebook"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-linkedin"></i></a>
+          </div>
+        </div>
+        
+        <!-- Footer Newsletter -->
+        <div class="footer-section">
+          <h4>Newsletter</h4>
+          <form class="newsletter-form">
+            <input type="email" placeholder="Your email">
+            <button type="submit">Subscribe</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- 
+    JAVASCRIPT DEPENDENCIES
+    =======================
+    Scripts loaded in order of dependency
+  -->
+  
+  <!-- Lazy Loading Utility -->
+  <script src="../public/js/lazy-loading.js"></script>
+  
+  <!-- Hotel Card Component -->
+  <script src="../components/hotel-card.js"></script>
+  
+  <!-- Main Page JavaScript -->
+  <script>
+    /**
+     * HOMEPAGE JAVASCRIPT FUNCTIONALITY
+     * =================================
+     * 
+     * This script handles all interactive functionality for the homepage:
+     * - Hotel loading with skeleton animation
+     * - Mobile navigation menu
+     * - Search form validation
+     * - Testimonial slider
+     * - Sticky navigation
+     * - AOS animation initialization
+     */
+
+    // ========================================
+    // CONFIGURATION & DATA
+    // ========================================
+
+    /**
+     * Array of vacation background images for hero section
+     * Images are randomly selected to provide variety
+     */
+    const vacationImages = [
+      'https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?w=1920&h=1080&fit=crop',
+      'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1920&h=1080&fit=crop',
+      'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=1920&h=1080&fit=crop',
+      'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=1920&h=1080&fit=crop',
+      'https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?w=1920&h=1080&fit=crop'
+    ];
+
+    // ========================================
+    // PAGE INITIALIZATION
+    // ========================================
+
+    /**
+     * Initialize all page functionality when DOM is ready
+     * Sets up all interactive components and animations
+     */
+    document.addEventListener('DOMContentLoaded', async () => {
+      // Load featured hotels with skeleton loading
+      await loadHotels();
+      
+      // Initialize mobile navigation menu
+      initMobileMenu();
+      
+      // Set up search form validation
+      initSearchForm();
+      
+      // Initialize testimonial slider
+      initTestimonialSlider();
+      
+      // Update authentication navbar (delayed to ensure sidebar is created)
+      setTimeout(updateNavbarAuth, 100);
+      
+      // Initialize AOS (Animate On Scroll) library
+      AOS.init({
+        duration: 800,        // Animation duration in milliseconds
+        easing: 'ease-out',   // Animation easing function
+        once: true,           // Animate only once when scrolling down
+        offset: 100           // Trigger animations 100px before element is visible
+      });
+    });
+
+    // ========================================
+    // HOTEL LOADING FUNCTIONALITY
+    // ========================================
+
+    /**
+     * Loads featured hotels with skeleton loading animation
+     * Provides smooth loading experience with placeholder content
+     */
+    async function loadHotels() {
+      const grid = document.getElementById('hotels-grid');
+      
+      // Show skeleton placeholders while loading
+      showSkeletons(grid, 'hotel-card', 4);
+      
+      try {
+        // Fetch hotels from API or component
+        const hotels = await fetchHotels();
+        
+        // Simulate loading delay for better UX (remove in production if not needed)
+        await new Promise(resolve => setTimeout(resolve, 600));
+        
+        // Create hotel cards with staggered animations
+        const hotelCards = hotels.slice(0, 4).map((hotel, index) => {
+          const card = createHotelCard(hotel);
+          return `<div data-aos="fade-up" data-aos-delay="${index * 100}">${card}</div>`;
+        }).join('');
+        
+        // Replace skeletons with actual content
+        hideSkeletons(grid, hotelCards);
+      } catch (error) {
+        console.error('Failed to load hotels:', error);
+        // Show error message if loading fails
+        hideSkeletons(grid, '<p class="error-message">Failed to load hotels</p>');
+      }
+    }
+
+    // ========================================
+    // MOBILE NAVIGATION MENU
+    // ========================================
+
+    /**
+     * Initializes mobile navigation menu functionality
+     * Creates sidebar and sets up event listeners
+     */
+    function initMobileMenu() {
+      // Create mobile sidebar HTML structure
+      createMobileSidebar();
+      
+      // Set up event listeners for menu interactions
+      document.getElementById('mobile-menu').addEventListener('click', openSidebar);
+      document.querySelector('.sidebar-close').addEventListener('click', closeSidebar);
+      document.querySelector('.sidebar-overlay').addEventListener('click', closeSidebar);
+    }
+    
+    /**
+     * Creates mobile sidebar HTML structure
+     * Injects sidebar elements into the page
+     */
+    function createMobileSidebar() {
+      const sidebarHTML = `
+        <!-- Overlay for closing menu when clicking outside -->
+        <div class="sidebar-overlay"></div>
+        
+        <!-- Mobile sidebar container -->
+        <div class="mobile-sidebar">
+          <!-- Sidebar header with logo and close button -->
+          <div class="sidebar-header">
+            <h3>FAGO</h3>
+            <button class="sidebar-close"><i class="fas fa-times"></i></button>
+          </div>
+          
+          <!-- Navigation links -->
+          <nav class="sidebar-nav">
+            <a href="/">Home</a>
+            <a href="/hotels">Hotels</a>
+            <a href="/deals">Deals</a>
+            <a href="/about">About</a>
+            <a href="/contact">Contact</a>
+          </nav>
+          
+          <!-- Authentication section (updated dynamically) -->
+          <div class="sidebar-auth">
+            <a href="/login" class="login-btn">Login / Sign Up</a>
+          </div>
+        </div>
+      `;
+      document.body.insertAdjacentHTML('beforeend', sidebarHTML);
+    }
+    
+    /**
+     * Opens the mobile sidebar menu
+     * Adds active classes and prevents body scrolling
+     */
+    function openSidebar() {
+      document.querySelector('.sidebar-overlay').classList.add('active');
+      document.querySelector('.mobile-sidebar').classList.add('active');
+      document.body.style.overflow = 'hidden'; // Prevent background scrolling
+    }
+    
+    /**
+     * Closes the mobile sidebar menu
+     * Removes active classes and restores body scrolling
+     */
+    function closeSidebar() {
+      document.querySelector('.sidebar-overlay').classList.remove('active');
+      document.querySelector('.mobile-sidebar').classList.remove('active');
+      document.body.style.overflow = ''; // Restore scrolling
+    }
+
+    // ========================================
+    // SEARCH FORM FUNCTIONALITY
+    // ========================================
+
+    /**
+     * Initializes search form with date validation
+     * Sets minimum dates and validates date ranges
+     */
+    function initSearchForm() {
+      const today = new Date().toISOString().split('T')[0];
+      
+      // Set minimum dates to today
+      document.getElementById('checkin').min = today;
+      document.getElementById('checkout').min = today;
+      
+      // Update checkout minimum date when checkin changes
+      document.getElementById('checkin').addEventListener('change', function() {
+        document.getElementById('checkout').min = this.value;
+      });
+    }
+
+    // ========================================
+    // TESTIMONIAL SLIDER FUNCTIONALITY
+    // ========================================
+
+    /**
+     * Initializes interactive testimonial slider
+     * Features manual navigation and auto-rotation
+     */
+    function initTestimonialSlider() {
+      /**
+       * Testimonial data array
+       * Contains customer reviews with names, locations, and images
+       */
+      const testimonials = [
+        {
+          text: "Amazing service and great hotels. The booking process was seamless and the customer support was outstanding!",
+          name: "Sarah Johnson",
+          location: "New York, USA",
+          image: "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=60&h=60&fit=crop&crop=face"
+        },
+        {
+          text: "Best booking experience ever. Found incredible deals and the hotels exceeded my expectations!",
+          name: "Mike Chen",
+          location: "Los Angeles, USA",
+          image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=60&h=60&fit=crop&crop=face"
+        },
+        {
+          text: "Fantastic deals and excellent customer support. Will definitely use FAGO for all my future travels!",
+          name: "Emma Davis",
+          location: "London, UK",
+          image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=60&h=60&fit=crop&crop=face"
+        }
+      ];
+      
+      let currentSlide = 0; // Track current testimonial
+      const card = document.querySelector('.testimonial-card');
+      const dots = document.querySelectorAll('.dot');
+      
+      /**
+       * Updates the testimonial display
+       * Changes content and updates navigation dots
+       */
+      function updateSlide() {
+        const testimonial = testimonials[currentSlide];
+        
+        // Update testimonial card content
+        card.innerHTML = `
+          <div class="stars">
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+          </div>
+          <p>"${testimonial.text}"</p>
+          <div class="reviewer">
+            <img src="${testimonial.image}" alt="${testimonial.name}">
+            <div>
+              <span class="name">${testimonial.name}</span>
+              <span class="location">${testimonial.location}</span>
+            </div>
+          </div>
+        `;
+        
+        // Update navigation dots
+        dots.forEach((dot, index) => {
+          dot.classList.toggle('active', index === currentSlide);
+        });
+      }
+      
+      // Next button event listener
+      document.querySelector('.next').addEventListener('click', () => {
+        currentSlide = (currentSlide + 1) % testimonials.length;
+        updateSlide();
+      });
+      
+      // Previous button event listener
+      document.querySelector('.prev').addEventListener('click', () => {
+        currentSlide = (currentSlide - 1 + testimonials.length) % testimonials.length;
+        updateSlide();
+      });
+      
+      // Dot navigation event listeners
+      dots.forEach((dot, index) => {
+        dot.addEventListener('click', () => {
+          currentSlide = index;
+          updateSlide();
+        });
+      });
+      
+      // Auto-slide functionality (changes slide every 5 seconds)
+      setInterval(() => {
+        currentSlide = (currentSlide + 1) % testimonials.length;
+        updateSlide();
+      }, 5000);
+    }
+
+    // ========================================
+    // STICKY NAVIGATION
+    // ========================================
+
+    /**
+     * Handles sticky navigation behavior
+     * Adds/removes sticky class based on scroll position
+     */
+    window.addEventListener('scroll', () => {
+      const navbar = document.querySelector('.navbar');
+      
+      // Add sticky class when scrolled down 100px
+      if (window.scrollY > 100) {
+        navbar.classList.add('sticky');
+      } else {
+        navbar.classList.remove('sticky');
+      }
+    });
+  </script>
+  
+  <!-- External Libraries -->
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>    <!-- AOS Animation Library -->
+  <script src="../public/js/auth-navbar.js"></script>                <!-- Authentication Navbar Handler -->
+</body>
+</html>

@@ -1,0 +1,264 @@
+/* Loading Skeleton Styles */
+.skeleton {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+  border-radius: 4px;
+}
+
+@keyframes loading {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Hotel Card Skeleton */
+.hotel-card-skeleton {
+  padding: 1rem;
+  border: 1px solid #e9ecef;
+  border-radius: 12px;
+  background: white;
+  margin-bottom: 1rem;
+}
+
+.hotel-card-skeleton .skeleton-image {
+  width: 100%;
+  height: 200px;
+  margin-bottom: 1rem;
+}
+
+.hotel-card-skeleton .skeleton-title {
+  height: 20px;
+  width: 70%;
+  margin-bottom: 0.5rem;
+}
+
+.hotel-card-skeleton .skeleton-location {
+  height: 16px;
+  width: 50%;
+  margin-bottom: 0.5rem;
+}
+
+.hotel-card-skeleton .skeleton-rating {
+  height: 16px;
+  width: 40%;
+  margin-bottom: 1rem;
+}
+
+.hotel-card-skeleton .skeleton-price {
+  height: 18px;
+  width: 30%;
+}
+
+/* Hotel List Card Skeleton */
+.hotel-list-skeleton {
+  display: flex;
+  gap: 1rem;
+  padding: 1rem;
+  border: 1px solid #e9ecef;
+  border-radius: 12px;
+  background: white;
+  margin-bottom: 1rem;
+}
+
+.hotel-list-skeleton .skeleton-image {
+  width: 200px;
+  height: 150px;
+  flex-shrink: 0;
+}
+
+.hotel-list-skeleton .skeleton-content {
+  flex: 1;
+}
+
+.hotel-list-skeleton .skeleton-title {
+  height: 24px;
+  width: 60%;
+  margin-bottom: 0.5rem;
+}
+
+.hotel-list-skeleton .skeleton-location {
+  height: 16px;
+  width: 40%;
+  margin-bottom: 0.5rem;
+}
+
+.hotel-list-skeleton .skeleton-description {
+  height: 14px;
+  width: 80%;
+  margin-bottom: 0.5rem;
+}
+
+.hotel-list-skeleton .skeleton-amenities {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.hotel-list-skeleton .skeleton-amenity {
+  height: 16px;
+  width: 60px;
+}
+
+.hotel-list-skeleton .skeleton-price {
+  height: 20px;
+  width: 100px;
+}
+
+/* Booking Card Skeleton */
+.booking-card-skeleton {
+  padding: 1.5rem;
+  border: 1px solid #e9ecef;
+  border-radius: 12px;
+  background: white;
+  margin-bottom: 1rem;
+}
+
+.booking-card-skeleton .skeleton-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.booking-card-skeleton .skeleton-status {
+  height: 24px;
+  width: 80px;
+}
+
+.booking-card-skeleton .skeleton-hotel {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.booking-card-skeleton .skeleton-hotel-image {
+  width: 80px;
+  height: 60px;
+}
+
+.booking-card-skeleton .skeleton-hotel-info {
+  flex: 1;
+}
+
+.booking-card-skeleton .skeleton-hotel-name {
+  height: 18px;
+  width: 60%;
+  margin-bottom: 0.5rem;
+}
+
+.booking-card-skeleton .skeleton-hotel-location {
+  height: 14px;
+  width: 40%;
+}
+
+.booking-card-skeleton .skeleton-dates {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 1rem;
+}
+
+.booking-card-skeleton .skeleton-date {
+  height: 16px;
+  width: 80px;
+}
+
+.booking-card-skeleton .skeleton-actions {
+  display: flex;
+  gap: 1rem;
+}
+
+.booking-card-skeleton .skeleton-button {
+  height: 36px;
+  width: 100px;
+}
+
+/* Deal Card Skeleton */
+.deal-card-skeleton {
+  padding: 1.5rem;
+  border: 1px solid #e9ecef;
+  border-radius: 12px;
+  background: white;
+  margin-bottom: 1rem;
+}
+
+.deal-card-skeleton .skeleton-badge {
+  height: 24px;
+  width: 60px;
+  margin-bottom: 1rem;
+}
+
+.deal-card-skeleton .skeleton-title {
+  height: 20px;
+  width: 70%;
+  margin-bottom: 0.5rem;
+}
+
+.deal-card-skeleton .skeleton-description {
+  height: 16px;
+  width: 90%;
+  margin-bottom: 1rem;
+}
+
+.deal-card-skeleton .skeleton-button {
+  height: 36px;
+  width: 100px;
+}
+
+/* Room Option Skeleton */
+.room-option-skeleton {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  background: white;
+  margin-bottom: 1rem;
+}
+
+.room-option-skeleton .skeleton-room-info {
+  flex: 1;
+}
+
+.room-option-skeleton .skeleton-room-type {
+  height: 18px;
+  width: 50%;
+  margin-bottom: 0.5rem;
+}
+
+.room-option-skeleton .skeleton-room-capacity {
+  height: 14px;
+  width: 30%;
+  margin-bottom: 0.5rem;
+}
+
+.room-option-skeleton .skeleton-room-price {
+  height: 16px;
+  width: 40%;
+}
+
+.room-option-skeleton .skeleton-button {
+  height: 36px;
+  width: 80px;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .hotel-list-skeleton {
+    flex-direction: column;
+  }
+  
+  .hotel-list-skeleton .skeleton-image {
+    width: 100%;
+    height: 200px;
+  }
+  
+  .booking-card-skeleton .skeleton-dates {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .booking-card-skeleton .skeleton-actions {
+    flex-direction: column;
+  }
+}

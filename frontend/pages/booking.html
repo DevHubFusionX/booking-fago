@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Complete Booking - Fago's Booking</title>
+  <link rel="stylesheet" href="../public/css/style.css">
+  <link rel="stylesheet" href="../public/css/booking.css">
+  <link rel="stylesheet" href="../public/css/auth-navbar.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+</head>
+<body>
+  <!-- Header / Navbar -->
+  <header class="navbar">
+    <div class="nav-container">
+      <div class="logo">
+        <h2>FAGO</h2>
+      </div>
+      
+      <nav class="nav-links">
+        <a href="/">Home</a>
+        <a href="/hotels">Hotels</a>
+        <a href="/deals">Deals</a>
+        <a href="/about">About</a>
+        <a href="/contact">Contact</a>
+      </nav>
+      
+      <div class="nav-auth">
+        <a href="/login" class="login-btn">Login / Sign Up</a>
+      </div>
+      
+      <div class="mobile-menu" id="mobile-menu">
+        <i class="fas fa-bars"></i>
+      </div>
+    </div>
+  </header>
+
+  <section class="booking-page">
+    <div class="container">
+      <h1>Complete Your Booking</h1>
+      
+      <div class="booking-content">
+        <!-- Booking Steps -->
+        <div class="booking-steps">
+          <div class="step active">
+            <span class="step-number">1</span>
+            <span>Guest Details</span>
+          </div>
+          <div class="step">
+            <span class="step-number">2</span>
+            <span>Payment</span>
+          </div>
+          <div class="step">
+            <span class="step-number">3</span>
+            <span>Confirmation</span>
+          </div>
+        </div>
+
+        <div class="booking-main">
+          <!-- Guest Details Form -->
+          <div class="booking-form-section" id="step-1">
+            <h2>Guest Information</h2>
+            <form id="guest-form">
+              <div class="form-row">
+                <div class="input-group">
+                  <label>First Name</label>
+                  <input type="text" name="firstName" required>
+                </div>
+                <div class="input-group">
+                  <label>Last Name</label>
+                  <input type="text" name="lastName" required>
+                </div>
+              </div>
+              
+              <div class="form-row">
+                <div class="input-group">
+                  <label>Email</label>
+                  <input type="email" name="email" required>
+                </div>
+                <div class="input-group">
+                  <label>Phone</label>
+                  <input type="tel" name="phone" required>
+                </div>
+              </div>
+
+              <div class="input-group">
+                <label>Special Requests (Optional)</label>
+                <textarea name="requests" rows="3" placeholder="Any special requests or preferences..."></textarea>
+              </div>
+
+              <button type="button" class="next-btn" onclick="nextStep(2)">Continue to Payment</button>
+            </form>
+          </div>
+
+          <!-- Payment Form -->
+          <div class="booking-form-section hidden" id="step-2">
+            <h2>Payment Information</h2>
+            <div class="payment-info">
+              <div class="payment-summary">
+                <h3>Payment Summary</h3>
+                <div class="amount-display">
+                  <span class="currency">₦</span>
+                  <span class="amount" id="payment-amount">94,500</span>
+                </div>
+                <p>Secure payment powered by Paystack</p>
+              </div>
+              
+              <div class="payment-methods">
+                <div class="payment-method active">
+                  <i class="fas fa-credit-card"></i>
+                  <span>Card • Bank Transfer • USSD</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button type="button" class="back-btn" onclick="nextStep(1)">Back</button>
+              <button type="button" class="next-btn" id="pay-now-btn" onclick="initiatePayment()">Pay Now</button>
+            </div>
+          </div>
+
+          <!-- Confirmation -->
+          <div class="booking-form-section hidden" id="step-3">
+            <div class="confirmation-content">
+              <div class="success-icon">
+                <i class="fas fa-check-circle"></i>
+              </div>
+              <h2>Booking Confirmed!</h2>
+              <p>Your booking has been successfully confirmed. You will receive a confirmation email shortly.</p>
+              
+              <div class="booking-reference">
+                <strong>Booking Reference: #FB2024001</strong>
+              </div>
+
+              <div class="confirmation-actions">
+                <button class="btn-primary" onclick="window.location.href='/dashboard'">View My Bookings</button>
+                <button class="btn-secondary" onclick="window.location.href='/'">Back to Home</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Booking Summary -->
+        <div class="booking-summary-card">
+          <h3>Booking Summary</h3>
+          
+          <div class="hotel-summary">
+            <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=100" alt="Hotel">
+            <div>
+              <h4>Grand Palace Hotel</h4>
+              <p><i class="fas fa-map-marker-alt"></i> Lagos, Nigeria</p>
+            </div>
+          </div>
+
+          <div class="booking-details">
+            <div class="detail-row">
+              <span>Check-in:</span>
+              <span id="summary-checkin">Dec 15, 2024</span>
+            </div>
+            <div class="detail-row">
+              <span>Check-out:</span>
+              <span id="summary-checkout">Dec 17, 2024</span>
+            </div>
+            <div class="detail-row">
+              <span>Guests:</span>
+              <span>2 Adults</span>
+            </div>
+            <div class="detail-row">
+              <span>Nights:</span>
+              <span>2</span>
+            </div>
+          </div>
+
+          <div class="price-breakdown">
+            <div class="price-row">
+              <span>₦45,000 x 2 nights</span>
+              <span>₦90,000</span>
+            </div>
+            <div class="price-row">
+              <span>Service fee</span>
+              <span>₦4,500</span>
+            </div>
+            <div class="price-row total">
+              <span>Total</span>
+              <span>₦94,500</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script src="../public/js/booking-utils.js"></script>
+  <script src="../components/header.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      initMobileMenu();
+      await checkAuth();
+      loadBookingData();
+      checkPaymentStatus();
+      setTimeout(updateNavbarAuth, 100);
+    });
+
+    function checkPaymentStatus() {
+      const urlParams = new URLSearchParams(window.location.search);
+      
+      if (urlParams.get('success') === 'true') {
+        const reference = urlParams.get('ref');
+        nextStep(3);
+        document.querySelector('.booking-reference strong').textContent = `Booking Reference: #${reference}`;
+      } else if (urlParams.get('error')) {
+        const error = urlParams.get('error');
+        let message = 'Payment failed. Please try again.';
+        
+        if (error === 'payment_failed') {
+          message = 'Payment was not successful. Please try again.';
+        } else if (error === 'verification_failed') {
+          message = 'Payment verification failed. Please contact support.';
+        }
+        
+        alert(message);
+        nextStep(2); // Go back to payment step
+      }
+    }
+
+    let currentUser = null;
+    let bookingData = null;
+    
+    function loadBookingData() {
+      const savedData = sessionStorage.getItem('bookingData');
+      if (savedData) {
+        bookingData = JSON.parse(savedData);
+        updateBookingSummary();
+      } else {
+        // Default data if no booking data found
+        bookingData = {
+          hotelId: 'hotel1',
+          hotelName: 'Grand Palace Hotel',
+          checkin: new Date().toISOString().split('T')[0],
+          checkout: new Date(Date.now() + 86400000).toISOString().split('T')[0],
+          guests: 2,
+          roomType: 'Deluxe Suite',
+          pricePerNight: 45000
+        };
+      }
+      
+      // Calculate nights and total
+      const checkinDate = new Date(bookingData.checkin);
+      const checkoutDate = new Date(bookingData.checkout);
+      bookingData.nights = Math.ceil((checkoutDate - checkinDate) / (1000 * 60 * 60 * 24));
+      
+      const subtotal = bookingData.nights * (bookingData.pricePerNight || 45000);
+      const serviceFee = subtotal * 0.05;
+      bookingData.subtotal = subtotal;
+      bookingData.serviceFee = serviceFee;
+      bookingData.total = subtotal + serviceFee;
+      bookingData.amount = bookingData.total; // For backward compatibility
+    }
+    
+    function updateBookingSummary() {
+      if (!bookingData) return;
+      
+      // Update hotel info
+      document.querySelector('.hotel-summary h4').textContent = bookingData.hotelName;
+      
+      // Update dates
+      const checkinDate = new Date(bookingData.checkin);
+      const checkoutDate = new Date(bookingData.checkout);
+      
+      document.getElementById('summary-checkin').textContent = checkinDate.toLocaleDateString('en-US', {
+        month: 'short', day: 'numeric', year: 'numeric'
+      });
+      document.getElementById('summary-checkout').textContent = checkoutDate.toLocaleDateString('en-US', {
+        month: 'short', day: 'numeric', year: 'numeric'
+      });
+      
+      // Update other details
+      document.querySelector('.booking-details .detail-row:nth-child(3) span:last-child').textContent = `${bookingData.guests} Adults`;
+      document.querySelector('.booking-details .detail-row:nth-child(4) span:last-child').textContent = bookingData.nights;
+      
+      // Update price breakdown
+      const subtotal = bookingData.subtotal || (bookingData.nights * (bookingData.pricePerNight || 45000));
+      const serviceFee = bookingData.serviceFee || (subtotal * 0.05);
+      const total = bookingData.total || (subtotal + serviceFee);
+      
+      document.querySelector('.price-breakdown .price-row:first-child span:first-child').textContent = `₦${bookingData.pricePerNight.toLocaleString()} x ${bookingData.nights} nights`;
+      document.querySelector('.price-breakdown .price-row:first-child span:last-child').textContent = `₦${subtotal.toLocaleString()}`;
+      document.querySelector('.price-breakdown .price-row:nth-child(2) span:last-child').textContent = `₦${serviceFee.toLocaleString()}`;
+      document.querySelector('.price-breakdown .total span:last-child').textContent = `₦${total.toLocaleString()}`;
+      
+      // Update payment amount
+      document.getElementById('payment-amount').textContent = total.toLocaleString();
+      
+      // Store updated booking data
+      bookingData.subtotal = subtotal;
+      bookingData.serviceFee = serviceFee;
+      bookingData.total = total;
+      bookingData.amount = total;
+    }
+
+    async function checkAuth() {
+      const user = await fetch('/api/user').then(r => r.json());
+      if (!user.user) {
+        window.location.href = '/login';
+      } else {
+        currentUser = user.user;
+      }
+    }
+
+    async function initiatePayment() {
+      if (!currentUser) {
+        alert('Please login first');
+        return;
+      }
+
+      const guestForm = document.getElementById('guest-form');
+      const formData = new FormData(guestForm);
+      
+      const guestDetails = {
+        firstName: formData.get('firstName'),
+        lastName: formData.get('lastName'),
+        email: formData.get('email'),
+        phone: formData.get('phone'),
+        requests: formData.get('requests')
+      };
+
+      // Validate form
+      try {
+        if (window.BookingUtils) {
+          BookingUtils.validateGuestDetails(guestDetails);
+        } else if (!guestDetails.firstName || !guestDetails.lastName || !guestDetails.email || !guestDetails.phone) {
+          throw new Error('Please fill in all required fields');
+        }
+      } catch (error) {
+        if (window.BookingUtils) {
+          BookingUtils.showError(error.message);
+        } else {
+          alert(error.message);
+        }
+        return;
+      }
+
+      const paymentBtn = document.getElementById('pay-now-btn');
+      paymentBtn.disabled = true;
+      paymentBtn.textContent = 'Processing...';
+
+      try {
+        const response = await fetch('/api/payment/initialize', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            email: guestDetails.email,
+            amount: bookingData.total || bookingData.amount,
+            hotelId: bookingData.hotelId,
+            bookingData: {
+              ...bookingData,
+              guestDetails
+            }
+          })
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          // Redirect to Paystack checkout
+          window.location.href = result.authorization_url;
+        } else {
+          if (window.BookingUtils) {
+            BookingUtils.showError(result.message || 'Payment initialization failed');
+          } else {
+            alert(result.message || 'Payment initialization failed');
+          }
+        }
+      } catch (error) {
+        if (window.BookingUtils) {
+          BookingUtils.showError('Payment service error. Please try again.');
+        } else {
+          alert('Payment service error. Please try again.');
+        }
+      } finally {
+        paymentBtn.disabled = false;
+        paymentBtn.textContent = 'Pay Now';
+      }
+    }
+
+    function nextStep(step) {
+      // Validate current step before proceeding
+      if (step === 2) {
+        const guestForm = document.getElementById('guest-form');
+        if (!guestForm.checkValidity()) {
+          guestForm.reportValidity();
+          return;
+        }
+      }
+      
+      // Hide all steps
+      document.querySelectorAll('.booking-form-section').forEach(section => {
+        section.classList.add('hidden');
+      });
+      
+      // Show current step
+      document.getElementById(`step-${step}`).classList.remove('hidden');
+      
+      // Update step indicators
+      document.querySelectorAll('.step').forEach((stepEl, index) => {
+        stepEl.classList.toggle('active', index + 1 <= step);
+      });
+    }
+
+    // Payment method selection
+    document.querySelectorAll('.payment-method').forEach(method => {
+      method.addEventListener('click', function() {
+        document.querySelectorAll('.payment-method').forEach(m => m.classList.remove('active'));
+        this.classList.add('active');
+      });
+    });
+
+    function initMobileMenu() {
+      createMobileSidebar();
+      document.getElementById('mobile-menu').addEventListener('click', openSidebar);
+      document.querySelector('.sidebar-close').addEventListener('click', closeSidebar);
+      document.querySelector('.sidebar-overlay').addEventListener('click', closeSidebar);
+    }
+    
+    function createMobileSidebar() {
+      const sidebarHTML = `
+        <div class="sidebar-overlay"></div>
+        <div class="mobile-sidebar">
+          <div class="sidebar-header">
+            <h3>FAGO</h3>
+            <button class="sidebar-close"><i class="fas fa-times"></i></button>
+          </div>
+          <nav class="sidebar-nav">
+            <a href="/">Home</a>
+            <a href="/hotels">Hotels</a>
+            <a href="/deals">Deals</a>
+            <a href="/about">About</a>
+            <a href="/contact">Contact</a>
+          </nav>
+          <div class="sidebar-auth">
+            <a href="/login" class="login-btn">Login / Sign Up</a>
+          </div>
+        </div>
+      `;
+      document.body.insertAdjacentHTML('beforeend', sidebarHTML);
+    }
+    
+    function openSidebar() {
+      document.querySelector('.sidebar-overlay').classList.add('active');
+      document.querySelector('.mobile-sidebar').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+    
+    function closeSidebar() {
+      document.querySelector('.sidebar-overlay').classList.remove('active');
+      document.querySelector('.mobile-sidebar').classList.remove('active');
+      document.body.style.overflow = '';
+    }
+  </script>
+  <script src="../public/js/auth-navbar.js"></script>
+</body>
+</html>

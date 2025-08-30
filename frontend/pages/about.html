@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Us - FAGO</title>
+  <link rel="stylesheet" href="../public/css/style.css">
+  <link rel="stylesheet" href="../public/css/about-contact.css">
+  <link rel="stylesheet" href="../public/css/auth-navbar.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+</head>
+<body>
+  <!-- Header / Navbar -->
+  <header class="navbar">
+    <div class="nav-container">
+      <div class="logo">
+        <h2>FAGO</h2>
+      </div>
+      
+      <nav class="nav-links">
+        <a href="/">Home</a>
+        <a href="/hotels">Hotels</a>
+        <a href="/deals">Deals</a>
+        <a href="/about" class="active">About</a>
+        <a href="/contact">Contact</a>
+      </nav>
+      
+      <div class="nav-auth">
+        <a href="/login" class="login-btn">Login / Sign Up</a>
+      </div>
+      
+      <div class="mobile-menu" id="mobile-menu">
+        <i class="fas fa-bars"></i>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="about-hero">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <h1>About FAGO</h1>
+      <p>Your trusted partner for exceptional hotel experiences worldwide</p>
+    </div>
+  </section>
+
+  <!-- About Content -->
+  <section class="about-content">
+    <div class="container">
+      <div class="about-grid">
+        <div class="about-text">
+          <h2>Our Story</h2>
+          <p>Founded with a passion for travel and hospitality, FAGO has been connecting travelers with exceptional accommodations since our inception. We believe that every journey deserves the perfect place to rest, recharge, and create memories.</p>
+          <p>Our platform brings together carefully curated hotels, from boutique properties to luxury resorts, ensuring that every traveler finds their ideal stay at the best possible price.</p>
+        </div>
+        <div class="about-image">
+          <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600&h=400&fit=crop" alt="Luxury Hotel">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Values Section -->
+  <section class="values-section">
+    <div class="container">
+      <h2 class="section-title">Our Values</h2>
+      <div class="values-grid">
+        <div class="value-card">
+          <i class="fas fa-heart"></i>
+          <h3>Customer First</h3>
+          <p>Every decision we make is centered around providing the best experience for our customers.</p>
+        </div>
+        <div class="value-card">
+          <i class="fas fa-shield-alt"></i>
+          <h3>Trust & Security</h3>
+          <p>Your data and payments are protected with industry-leading security measures.</p>
+        </div>
+        <div class="value-card">
+          <i class="fas fa-globe"></i>
+          <h3>Global Reach</h3>
+          <p>Access to thousands of properties worldwide, from local gems to international chains.</p>
+        </div>
+        <div class="value-card">
+          <i class="fas fa-star"></i>
+          <h3>Quality Assurance</h3>
+          <p>Every property is carefully vetted to ensure it meets our high standards.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats Section -->
+  <section class="stats-section">
+    <div class="container">
+      <div class="stats-grid">
+        <div class="stat-item">
+          <h3>50,000+</h3>
+          <p>Happy Customers</p>
+        </div>
+        <div class="stat-item">
+          <h3>1,200+</h3>
+          <p>Partner Hotels</p>
+        </div>
+        <div class="stat-item">
+          <h3>25+</h3>
+          <p>Countries</p>
+        </div>
+        <div class="stat-item">
+          <h3>4.8/5</h3>
+          <p>Customer Rating</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h3>FAGO</h3>
+          <p>Your trusted partner for hotel bookings worldwide.</p>
+        </div>
+        <div class="footer-section">
+          <h4>Company</h4>
+          <a href="/about">About Us</a>
+          <a href="#careers">Careers</a>
+          <a href="#faqs">FAQs</a>
+          <a href="/contact">Contact</a>
+        </div>
+        <div class="footer-section">
+          <h4>Follow Us</h4>
+          <div class="social-links">
+            <a href="#"><i class="fab fa-facebook"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-linkedin"></i></a>
+          </div>
+        </div>
+        <div class="footer-section">
+          <h4>Newsletter</h4>
+          <form class="newsletter-form">
+            <input type="email" placeholder="Your email">
+            <button type="submit">Subscribe</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      initMobileMenu();
+      setTimeout(updateNavbarAuth, 100); // Wait for sidebar creation
+    });
+
+    function initMobileMenu() {
+      createMobileSidebar();
+      document.getElementById('mobile-menu').addEventListener('click', openSidebar);
+      document.querySelector('.sidebar-close').addEventListener('click', closeSidebar);
+      document.querySelector('.sidebar-overlay').addEventListener('click', closeSidebar);
+    }
+    
+    function createMobileSidebar() {
+      const sidebarHTML = `
+        <div class="sidebar-overlay"></div>
+        <div class="mobile-sidebar">
+          <div class="sidebar-header">
+            <h3>FAGO</h3>
+            <button class="sidebar-close"><i class="fas fa-times"></i></button>
+          </div>
+          <nav class="sidebar-nav">
+            <a href="/">Home</a>
+            <a href="/hotels">Hotels</a>
+            <a href="/deals">Deals</a>
+            <a href="/about">About</a>
+            <a href="/contact">Contact</a>
+          </nav>
+          <div class="sidebar-auth">
+            <a href="/login" class="login-btn">Login / Sign Up</a>
+          </div>
+        </div>
+      `;
+      document.body.insertAdjacentHTML('beforeend', sidebarHTML);
+    }
+    
+    function openSidebar() {
+      document.querySelector('.sidebar-overlay').classList.add('active');
+      document.querySelector('.mobile-sidebar').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+    
+    function closeSidebar() {
+      document.querySelector('.sidebar-overlay').classList.remove('active');
+      document.querySelector('.mobile-sidebar').classList.remove('active');
+      document.body.style.overflow = '';
+    }
+  </script>
+  <script src="../public/js/auth-navbar.js"></script>
+</body>
+</html>

@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- 
+    BOOKING PAGE - MULTI-STEP BOOKING PROCESS
+    =========================================
+    
+    This page handles the complete hotel booking process with Paystack payment integration.
+    
+    Features:
+    - Multi-step booking form (Guest Details → Payment → Confirmation)
+    - Paystack payment gateway integration
+    - Real-time booking summary with price calculations
+    - Form validation and error handling
+    - Payment status handling (success/failure)
+    - Responsive design for all devices
+    - Authentication-required access
+    
+    Process Flow:
+    1. User enters guest details (name, email, phone, special requests)
+    2. System validates form and shows payment options
+    3. User clicks "Pay Now" to initialize Paystack payment
+    4. User is redirected to Paystack checkout page
+    5. After payment, Paystack redirects back with status
+    6. System shows confirmation or error message
+    
+    Dependencies:
+    - Paystack payment gateway
+    - User authentication system
+    - Booking data from session storage
+    - Mobile navigation components
+    
+    Author: Fago's Booking Team
+    Version: 1.0.0
+  -->
+  
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Complete Booking - Fago's Booking</title>
+  
+  <!-- CSS Dependencies -->
+  <link rel="stylesheet" href="../public/css/style.css">        <!-- Main stylesheet -->
+  <link rel="stylesheet" href="../public/css/booking.css">     <!-- Booking-specific styles -->
+  <link rel="stylesheet" href="../public/css/auth-navbar.css"> <!-- Authentication navbar -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"> <!-- Font Awesome icons -->
+</head>
+<body>
+  <!-- 
+    NAVIGATION HEADER
+    =================
+    Standard navigation bar with authentication awareness
+  -->
+  <header class="navbar">
+    <div class="nav-container">
+      <!-- Logo Section -->
+      <div class="logo">
+        <h2>FAGO</h2>
+      </div>
+      
+      <!-- Desktop Navigation Links -->
+      <nav class="nav-links">
+        <a href="/">Home</a>
+        <a href="/hotels">Hotels</a>
+        <a href="/deals">Deals</a>
+        <a href="/about">About</a>
+        <a href="/contact">Contact</a>
+      </nav>
+      
+      <!-- Authentication Section (updated dynamically) -->
+      <div class="nav-auth">
+        <a href="/login" class="login-btn">Login / Sign Up</a>
+      </div>
+      
+      <!-- Mobile Menu Toggle -->
+      <div class="mobile-menu" id="mobile-menu">
+        <i class="fas fa-bars"></i>
+      </div>
+    </div>
+  </header>
+
+  <!-- 
+    MAIN BOOKING SECTION
+    ====================
+    Contains the entire booking process interface
+  -->
+  <section class="booking-page">
+    <div class="container">
+      <h1>Complete Your Booking</h1>
+      
+      <div class="booking-content">
+        <!-- 
+          BOOKING PROGRESS STEPS
+          ======================
+          Visual indicator showing current step in booking process
+        -->
+        <div class="booking-steps">
+          <!-- Step 1: Guest Details -->
+          <div class="step active">
+            <span class="step-number">1</span>
+            <span>Guest Details</span>
+          </div>
+          
+          <!-- Step 2: Payment -->
+          <div class="step">
+            <span class="step-number">2</span>
+            <span>Payment</span>
+          </div>
+          
+          <!-- Step 3: Confirmation -->
+          <div class="step">
+            <span class="step-number">3</span>
+            <span>Confirmation</span>
+          </div>
+        </div>
+
+        <div class="booking-main">
+          <!-- 
+            STEP 1: GUEST DETAILS FORM
+            ===========================
+            Collects guest information required for booking
+          -->
+          <div class="booking-form-section" id="step-1">
+            <h2>Guest Information</h2>
+            
+            <form id="guest-form">
+              <!-- Name Fields Row -->
+              <div class="form-row">
+                <div class="input-group">
+                  <label>First Name</label>
+                  <input type="text" name="firstName" required>
+                </div>
+                <div class="input-group">
+                  <label>Last Name</label>
+                  <input type="text" name="lastName" required>
+                </div>
+              </div>
+              
+              <!-- Contact Information Row -->
+              <div class="form-row">
+                <div class="input-group">
+                  <label>Email</label>
+                  <input type="email" name="email" required>
+                </div>
+                <div class="input-group">
+                  <label>Phone</label>
+                  <input type="tel" name="phone" required>
+                </div>
+              </div>
+
+              <!-- Special Requests Field -->
+              <div class="input-group">
+                <label>Special Requests (Optional)</label>
+                <textarea name="requests" rows="3" placeholder="Any special requests or preferences..."></textarea>
+              </div>
+
+              <!-- Continue Button -->
+              <button type="button" class="next-btn" onclick="nextStep(2)">Continue to Payment</button>
+            </form>
+          </div>
+
+          <!-- 
+            STEP 2: PAYMENT INFORMATION
+            ============================
+            Paystack payment integration interface
+          -->
+          <div class="booking-form-section hidden" id="step-2">
+            <h2>Payment Information</h2>
+            
+            <div class="payment-info">
+              <!-- Payment Summary Display -->
+              <div class="payment-summary">
+                <h3>Payment Summary</h3>
+                <div class="amount-display">
+                  <span class="currency">₦</span>
+                  <span class="amount" id="payment-amount">94,500</span>
+                </div>
+                <p>Secure payment powered by Paystack</p>
+              </div>
+              
+              <!-- Payment Methods Available -->
+              <div class="payment-methods">
+                <div class="payment-method active">
+                  <i class="fas fa-credit-card"></i>
+                  <span>Card • Bank Transfer • USSD</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Payment Action Buttons -->
+            <div class="form-actions">
+              <button type="button" class="back-btn" onclick="nextStep(1)">Back</button>
+              <button type="button" class="next-btn" id="pay-now-btn" onclick="initiatePayment()">Pay Now</button>
+            </div>
+          </div>
+
+          <!-- 
+            STEP 3: BOOKING CONFIRMATION
+            =============================
+            Success page shown after successful payment
+          -->
+          <div class="booking-form-section hidden" id="step-3">
+            <div class="confirmation-content">
+              <!-- Success Icon -->
+              <div class="success-icon">
+                <i class="fas fa-check-circle"></i>
+              </div>
+              
+              <!-- Confirmation Message -->
+              <h2>Booking Confirmed!</h2>
+              <p>Your booking has been successfully confirmed. You will receive a confirmation email shortly.</p>
+              
+              <!-- Booking Reference Number -->
+              <div class="booking-reference">
+                <strong>Booking Reference: #FB2024001</strong>
+              </div>
+
+              <!-- Action Buttons -->
+              <div class="confirmation-actions">
+                <button class="btn-primary" onclick="window.location.href='/dashboard'">View My Bookings</button>
+                <button class="btn-secondary" onclick="window.location.href='/'">Back to Home</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 
+          BOOKING SUMMARY SIDEBAR
+          =======================
+          Sticky sidebar showing booking details and price breakdown
+        -->
+        <div class="booking-summary-card">
+          <h3>Booking Summary</h3>
+          
+          <!-- Hotel Information -->
+          <div class="hotel-summary">
+            <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=100" alt="Hotel">
+            <div>
+              <h4>Grand Palace Hotel</h4>
+              <p><i class="fas fa-map-marker-alt"></i> Lagos, Nigeria</p>
+            </div>
+          </div>
+
+          <!-- Booking Details -->
+          <div class="booking-details">
+            <div class="detail-row">
+              <span>Check-in:</span>
+              <span id="summary-checkin">Dec 15, 2024</span>
+            </div>
+            <div class="detail-row">
+              <span>Check-out:</span>
+              <span id="summary-checkout">Dec 17, 2024</span>
+            </div>
+            <div class="detail-row">
+              <span>Guests:</span>
+              <span>2 Adults</span>
+            </div>
+            <div class="detail-row">
+              <span>Nights:</span>
+              <span>2</span>
+            </div>
+          </div>
+
+          <!-- Price Breakdown -->
+          <div class="price-breakdown">
+            <div class="price-row">
+              <span>₦45,000 x 2 nights</span>
+              <span>₦90,000</span>
+            </div>
+            <div class="price-row">
+              <span>Service fee</span>
+              <span>₦4,500</span>
+            </div>
+            <div class="price-row total">
+              <span>Total</span>
+              <span>₦94,500</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 
+    JAVASCRIPT DEPENDENCIES
+    =======================
+    Scripts for booking functionality
+  -->
+  
+  <!-- Booking Utilities (optional) -->
+  <script src="../public/js/booking-utils.js"></script>
+  
+  <!-- Header Component -->
+  <script src="../components/header.js"></script>
+  
+  <!-- Main Booking JavaScript -->
+  <script>
+    /**
+     * BOOKING PAGE JAVASCRIPT FUNCTIONALITY
+     * ====================================
+     * 
+     * This script handles all booking page functionality:
+     * - Multi-step form navigation
+     * - Payment processing with Paystack
+     * - Form validation and error handling
+     * - Booking data management
+     * - Payment status handling
+     * - Mobile navigation
+     */
+
+    // ========================================
+    // GLOBAL VARIABLES
+    // ========================================
+
+    /**
+     * Current authenticated user data
+     * @type {Object|null}
+     */
+    let currentUser = null;
+
+    /**
+     * Booking data object containing all booking information
+     * @type {Object|null}
+     */
+    let bookingData = null;
+
+    // ========================================
+    // PAGE INITIALIZATION
+    // ========================================
+
+    /**
+     * Initialize page when DOM is ready
+     * Sets up all functionality and checks authentication
+     */
+    document.addEventListener('DOMContentLoaded', async () => {
+      // Initialize mobile navigation
+      initMobileMenu();
+      
+      // Check user authentication (required for booking)
+      await checkAuth();
+      
+      // Load booking data from session storage or set defaults
+      loadBookingData();
+      
+      // Check if returning from payment (success/failure)
+      checkPaymentStatus();
+      
+      // Update authentication navbar (delayed for sidebar creation)
+      setTimeout(updateNavbarAuth, 100);
+    });
+
+    // ========================================
+    // PAYMENT STATUS HANDLING
+    // ========================================
+
+    /**
+     * Checks URL parameters for payment status
+     * Handles success/failure redirects from Paystack
+     */
+    function checkPaymentStatus() {
+      const urlParams = new URLSearchParams(window.location.search);
+      
+      // Check for successful payment
+      if (urlParams.get('success') === 'true') {
+        const reference = urlParams.get('ref');
+        
+        // Show confirmation step
+        nextStep(3);
+        
+        // Update booking reference number
+        document.querySelector('.booking-reference strong').textContent = `Booking Reference: #${reference}`;
+        
+      } else if (urlParams.get('error')) {
+        // Handle payment errors
+        const error = urlParams.get('error');
+        let message = 'Payment failed. Please try again.';
+        
+        // Customize error message based on error type
+        if (error === 'payment_failed') {
+          message = 'Payment was not successful. Please try again.';
+        } else if (error === 'verification_failed') {
+          message = 'Payment verification failed. Please contact support.';
+        }
+        
+        alert(message);
+        nextStep(2); // Return to payment step
+      }
+    }
+
+    // ========================================
+    // BOOKING DATA MANAGEMENT
+    // ========================================
+
+    /**
+     * Loads booking data from session storage or sets defaults
+     * Calculates pricing and updates the booking summary
+     */
+    function loadBookingData() {
+      // Try to load saved booking data
+      const savedData = sessionStorage.getItem('bookingData');
+      
+      if (savedData) {
+        bookingData = JSON.parse(savedData);
+        updateBookingSummary();
+      } else {
+        // Set default booking data if none found
+        bookingData = {
+          hotelId: 'hotel1',
+          hotelName: 'Grand Palace Hotel',
+          checkin: new Date().toISOString().split('T')[0],
+          checkout: new Date(Date.now() + 86400000).toISOString().split('T')[0],
+          guests: 2,
+          roomType: 'Deluxe Suite',
+          pricePerNight: 45000
+        };
+      }
+      
+      // Calculate booking duration and pricing
+      const checkinDate = new Date(bookingData.checkin);
+      const checkoutDate = new Date(bookingData.checkout);
+      bookingData.nights = Math.ceil((checkoutDate - checkinDate) / (1000 * 60 * 60 * 24));
+      
+      // Calculate pricing breakdown
+      const subtotal = bookingData.nights * (bookingData.pricePerNight || 45000);
+      const serviceFee = subtotal * 0.05; // 5% service fee
+      
+      bookingData.subtotal = subtotal;
+      bookingData.serviceFee = serviceFee;
+      bookingData.total = subtotal + serviceFee;
+      bookingData.amount = bookingData.total; // For backward compatibility
+    }
+    
+    /**
+     * Updates the booking summary display with current booking data
+     * Refreshes hotel info, dates, pricing, and guest details
+     */
+    function updateBookingSummary() {
+      if (!bookingData) return;
+      
+      // Update hotel information
+      document.querySelector('.hotel-summary h4').textContent = bookingData.hotelName;
+      
+      // Format and update dates
+      const checkinDate = new Date(bookingData.checkin);
+      const checkoutDate = new Date(bookingData.checkout);
+      
+      document.getElementById('summary-checkin').textContent = checkinDate.toLocaleDateString('en-US', {
+        month: 'short', day: 'numeric', year: 'numeric'
+      });
+      document.getElementById('summary-checkout').textContent = checkoutDate.toLocaleDateString('en-US', {
+        month: 'short', day: 'numeric', year: 'numeric'
+      });
+      
+      // Update guest count and nights
+      document.querySelector('.booking-details .detail-row:nth-child(3) span:last-child').textContent = `${bookingData.guests} Adults`;
+      document.querySelector('.booking-details .detail-row:nth-child(4) span:last-child').textContent = bookingData.nights;
+      
+      // Update price breakdown
+      const subtotal = bookingData.subtotal || (bookingData.nights * (bookingData.pricePerNight || 45000));
+      const serviceFee = bookingData.serviceFee || (subtotal * 0.05);
+      const total = bookingData.total || (subtotal + serviceFee);
+      
+      // Update price display elements
+      document.querySelector('.price-breakdown .price-row:first-child span:first-child').textContent = `₦${bookingData.pricePerNight.toLocaleString()} x ${bookingData.nights} nights`;
+      document.querySelector('.price-breakdown .price-row:first-child span:last-child').textContent = `₦${subtotal.toLocaleString()}`;
+      document.querySelector('.price-breakdown .price-row:nth-child(2) span:last-child').textContent = `₦${serviceFee.toLocaleString()}`;
+      document.querySelector('.price-breakdown .total span:last-child').textContent = `₦${total.toLocaleString()}`;
+      
+      // Update payment amount display
+      document.getElementById('payment-amount').textContent = total.toLocaleString();
+      
+      // Store updated booking data
+      bookingData.subtotal = subtotal;
+      bookingData.serviceFee = serviceFee;
+      bookingData.total = total;
+      bookingData.amount = total;
+    }
+
+    // ========================================
+    // AUTHENTICATION HANDLING
+    // ========================================
+
+    /**
+     * Checks if user is authenticated
+     * Redirects to login page if not authenticated
+     */
+    async function checkAuth() {
+      try {
+        const response = await fetch('/api/user');
+        const user = await response.json();
+        
+        if (!user.user) {
+          // User not authenticated - redirect to login
+          window.location.href = '/login';
+        } else {
+          // Store current user data
+          currentUser = user.user;
+        }
+      } catch (error) {
+        console.error('Authentication check failed:', error);
+        window.location.href = '/login';
+      }
+    }
+
+    // ========================================
+    // PAYMENT PROCESSING
+    // ========================================
+
+    /**
+     * Initiates payment process with Paystack
+     * Validates form data and redirects to Paystack checkout
+     */
+    async function initiatePayment() {
+      // Ensure user is authenticated
+      if (!currentUser) {
+        alert('Please login first');
+        return;
+      }
+
+      // Get guest details from form
+      const guestForm = document.getElementById('guest-form');
+      const formData = new FormData(guestForm);
+      
+      const guestDetails = {
+        firstName: formData.get('firstName'),
+        lastName: formData.get('lastName'),
+        email: formData.get('email'),
+        phone: formData.get('phone'),
+        requests: formData.get('requests')
+      };
+
+      // Validate guest details
+      try {
+        // Use booking utils if available, otherwise basic validation
+        if (window.BookingUtils) {
+          BookingUtils.validateGuestDetails(guestDetails);
+        } else if (!guestDetails.firstName || !guestDetails.lastName || !guestDetails.email || !guestDetails.phone) {
+          throw new Error('Please fill in all required fields');
+        }
+      } catch (error) {
+        // Show error message
+        if (window.BookingUtils) {
+          BookingUtils.showError(error.message);
+        } else {
+          alert(error.message);
+        }
+        return;
+      }
+
+      // Update payment button state
+      const paymentBtn = document.getElementById('pay-now-btn');
+      paymentBtn.disabled = true;
+      paymentBtn.textContent = 'Processing...';
+
+      try {
+        // Initialize payment with backend
+        const response = await fetch('/api/payment/initialize', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            email: guestDetails.email,
+            amount: bookingData.total || bookingData.amount,
+            hotelId: bookingData.hotelId,
+            bookingData: {
+              ...bookingData,
+              guestDetails
+            }
+          })
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          // Redirect to Paystack checkout page
+          window.location.href = result.authorization_url;
+        } else {
+          // Show error message
+          if (window.BookingUtils) {
+            BookingUtils.showError(result.message || 'Payment initialization failed');
+          } else {
+            alert(result.message || 'Payment initialization failed');
+          }
+        }
+      } catch (error) {
+        console.error('Payment initialization error:', error);
+        
+        // Show error message
+        if (window.BookingUtils) {
+          BookingUtils.showError('Payment service error. Please try again.');
+        } else {
+          alert('Payment service error. Please try again.');
+        }
+      } finally {
+        // Reset payment button state
+        paymentBtn.disabled = false;
+        paymentBtn.textContent = 'Pay Now';
+      }
+    }
+
+    // ========================================
+    // FORM NAVIGATION
+    // ========================================
+
+    /**
+     * Navigates between booking steps
+     * Validates current step before proceeding
+     * 
+     * @param {number} step - Step number to navigate to (1, 2, or 3)
+     */
+    function nextStep(step) {
+      // Validate current step before proceeding
+      if (step === 2) {
+        const guestForm = document.getElementById('guest-form');
+        if (!guestForm.checkValidity()) {
+          guestForm.reportValidity();
+          return;
+        }
+      }
+      
+      // Hide all form sections
+      document.querySelectorAll('.booking-form-section').forEach(section => {
+        section.classList.add('hidden');
+      });
+      
+      // Show target step
+      document.getElementById(`step-${step}`).classList.remove('hidden');
+      
+      // Update step indicators
+      document.querySelectorAll('.step').forEach((stepEl, index) => {
+        stepEl.classList.toggle('active', index + 1 <= step);
+      });
+    }
+
+    // ========================================
+    // PAYMENT METHOD SELECTION
+    // ========================================
+
+    /**
+     * Handles payment method selection
+     * Updates active state of payment method buttons
+     */
+    document.querySelectorAll('.payment-method').forEach(method => {
+      method.addEventListener('click', function() {
+        // Remove active class from all methods
+        document.querySelectorAll('.payment-method').forEach(m => m.classList.remove('active'));
+        
+        // Add active class to selected method
+        this.classList.add('active');
+      });
+    });
+
+    // ========================================
+    // MOBILE NAVIGATION
+    // ========================================
+
+    /**
+     * Initializes mobile navigation menu
+     * Creates sidebar and sets up event listeners
+     */
+    function initMobileMenu() {
+      createMobileSidebar();
+      
+      // Set up event listeners
+      document.getElementById('mobile-menu').addEventListener('click', openSidebar);
+      document.querySelector('.sidebar-close').addEventListener('click', closeSidebar);
+      document.querySelector('.sidebar-overlay').addEventListener('click', closeSidebar);
+    }
+    
+    /**
+     * Creates mobile sidebar HTML structure
+     */
+    function createMobileSidebar() {
+      const sidebarHTML = `
+        <div class="sidebar-overlay"></div>
+        <div class="mobile-sidebar">
+          <div class="sidebar-header">
+            <h3>FAGO</h3>
+            <button class="sidebar-close"><i class="fas fa-times"></i></button>
+          </div>
+          <nav class="sidebar-nav">
+            <a href="/">Home</a>
+            <a href="/hotels">Hotels</a>
+            <a href="/deals">Deals</a>
+            <a href="/about">About</a>
+            <a href="/contact">Contact</a>
+          </nav>
+          <div class="sidebar-auth">
+            <a href="/login" class="login-btn">Login / Sign Up</a>
+          </div>
+        </div>
+      `;
+      document.body.insertAdjacentHTML('beforeend', sidebarHTML);
+    }
+    
+    /**
+     * Opens mobile sidebar menu
+     */
+    function openSidebar() {
+      document.querySelector('.sidebar-overlay').classList.add('active');
+      document.querySelector('.mobile-sidebar').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+    
+    /**
+     * Closes mobile sidebar menu
+     */
+    function closeSidebar() {
+      document.querySelector('.sidebar-overlay').classList.remove('active');
+      document.querySelector('.mobile-sidebar').classList.remove('active');
+      document.body.style.overflow = '';
+    }
+  </script>
+  
+  <!-- Authentication Navbar Handler -->
+  <script src="../public/js/auth-navbar.js"></script>
+</body>
+</html>

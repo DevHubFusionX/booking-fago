@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us - FAGO</title>
+  <link rel="stylesheet" href="../public/css/style.css">
+  <link rel="stylesheet" href="../public/css/about-contact.css">
+  <link rel="stylesheet" href="../public/css/contact-enhanced.css">
+  <link rel="stylesheet" href="../public/css/auth-navbar.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+</head>
+<body>
+  <!-- Header / Navbar -->
+  <header class="navbar">
+    <div class="nav-container">
+      <div class="logo">
+        <h2>FAGO</h2>
+      </div>
+      
+      <nav class="nav-links">
+        <a href="/">Home</a>
+        <a href="/hotels">Hotels</a>
+        <a href="/deals">Deals</a>
+        <a href="/about">About</a>
+        <a href="/contact" class="active">Contact</a>
+      </nav>
+      
+      <div class="nav-auth">
+        <a href="/login" class="login-btn">Login / Sign Up</a>
+      </div>
+      
+      <div class="mobile-menu" id="mobile-menu">
+        <i class="fas fa-bars"></i>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Banner -->
+  <section class="contact-hero">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <h1>We're here to help you 24/7</h1>
+      <p>Contact us for bookings, support, or inquiries</p>
+    </div>
+  </section>
+
+  <!-- Contact Content -->
+  <section class="contact-section">
+    <div class="container">
+      <div class="contact-layout">
+        <!-- Contact Form -->
+        <div class="contact-form-container">
+          <h2>Send us a Message</h2>
+          <form class="contact-form" id="contact-form">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="name">Full Name *</label>
+                <input type="text" id="name" name="name" required>
+              </div>
+              <div class="form-group">
+                <label for="email">Email Address *</label>
+                <input type="email" id="email" name="email" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="subject">Subject *</label>
+              <select id="subject" name="subject" required>
+                <option value="">Select a topic</option>
+                <option value="booking">Booking</option>
+                <option value="payment">Payment</option>
+                <option value="technical">Technical Support</option>
+                <option value="general">General Inquiry</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="message">Message *</label>
+              <textarea id="message" name="message" rows="6" required></textarea>
+            </div>
+            <button type="submit" class="submit-btn">Send Message</button>
+          </form>
+        </div>
+
+        <!-- Contact Info -->
+        <div class="contact-info">
+          <h2>Get in Touch</h2>
+          <div class="contact-methods">
+            <div class="contact-method">
+              <i class="fas fa-map-marker-alt"></i>
+              <div>
+                <h4>Address</h4>
+                <p>123 Business District<br>Lagos, Nigeria</p>
+              </div>
+            </div>
+            <div class="contact-method">
+              <i class="fas fa-phone"></i>
+              <div>
+                <h4>Phone</h4>
+                <p>+234 800 123 4567</p>
+              </div>
+            </div>
+            <div class="contact-method">
+              <i class="fas fa-envelope"></i>
+              <div>
+                <h4>Email</h4>
+                <p>support@hotelbooking.com</p>
+              </div>
+            </div>
+            <div class="contact-method">
+              <i class="fas fa-clock"></i>
+              <div>
+                <h4>Business Hours</h4>
+                <p>Mon - Sat: 8:00 AM - 8:00 PM (WAT)</p>
+              </div>
+            </div>
+            <div class="social-media">
+              <h4>Follow Us</h4>
+              <div class="social-icons">
+                <a href="#" class="social-icon"><i class="fab fa-facebook"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section class="faq-section">
+    <div class="container">
+      <h2 class="section-title">Frequently Asked Questions</h2>
+      <div class="faq-accordion">
+        <div class="faq-item">
+          <div class="faq-question">
+            <h4>How can I modify my booking?</h4>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            <p>You can modify your booking through your account dashboard or by contacting our support team. Changes are subject to hotel availability and policies.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">
+            <h4>Do you offer refunds?</h4>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            <p>Refund policies vary by hotel and booking type. Most bookings offer free cancellation up to 24-48 hours before check-in.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">
+            <h4>Can I pay on arrival?</h4>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            <p>Payment options depend on the hotel. Some properties accept payment on arrival, while others require advance payment during booking.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Newsletter CTA -->
+  <section class="newsletter-cta">
+    <div class="container">
+      <div class="newsletter-banner">
+        <span>Want exclusive travel deals? Subscribe to our newsletter.</span>
+        <form class="newsletter-inline">
+          <input type="email" placeholder="Enter your email" required>
+          <button type="submit">Subscribe</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h3>FAGO</h3>
+          <p>Your trusted partner for hotel bookings worldwide.</p>
+        </div>
+        <div class="footer-section">
+          <h4>Company</h4>
+          <a href="/about">About Us</a>
+          <a href="#careers">Careers</a>
+          <a href="#faqs">FAQs</a>
+          <a href="/contact">Contact</a>
+        </div>
+        <div class="footer-section">
+          <h4>Follow Us</h4>
+          <div class="social-links">
+            <a href="#"><i class="fab fa-facebook"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-linkedin"></i></a>
+          </div>
+        </div>
+        <div class="footer-section">
+          <h4>Newsletter</h4>
+          <form class="newsletter-form">
+            <input type="email" placeholder="Your email">
+            <button type="submit">Subscribe</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      initMobileMenu();
+      initContactForm();
+      setTimeout(updateNavbarAuth, 100); // Wait for sidebar creation
+    });
+
+    function initContactForm() {
+      document.getElementById('contact-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const formData = new FormData(e.target);
+        const contactData = {
+          name: formData.get('name'),
+          email: formData.get('email'),
+          subject: formData.get('subject'),
+          message: formData.get('message')
+        };
+        
+        const submitBtn = e.target.querySelector('.submit-btn');
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Sending...';
+        
+        try {
+          const response = await fetch('/api/contact', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(contactData)
+          });
+          
+          const result = await response.json();
+          
+          if (result.success) {
+            alert('Thank you for your message! We\'ll get back to you soon.');
+            e.target.reset();
+          } else {
+            alert('Failed to send message. Please try again.');
+          }
+        } catch (error) {
+          alert('Error sending message. Please try again.');
+        } finally {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Send Message';
+        }
+      });
+      
+      // FAQ accordion
+      document.querySelectorAll('.faq-question').forEach(question => {
+        question.addEventListener('click', () => {
+          const item = question.parentElement;
+          const answer = item.querySelector('.faq-answer');
+          const icon = question.querySelector('i');
+          
+          item.classList.toggle('active');
+          if (item.classList.contains('active')) {
+            answer.style.maxHeight = answer.scrollHeight + 'px';
+            icon.style.transform = 'rotate(180deg)';
+          } else {
+            answer.style.maxHeight = '0';
+            icon.style.transform = 'rotate(0deg)';
+          }
+        });
+      });
+    }
+
+    function initMobileMenu() {
+      createMobileSidebar();
+      document.getElementById('mobile-menu').addEventListener('click', openSidebar);
+      document.querySelector('.sidebar-close').addEventListener('click', closeSidebar);
+      document.querySelector('.sidebar-overlay').addEventListener('click', closeSidebar);
+    }
+    
+    function createMobileSidebar() {
+      const sidebarHTML = `
+        <div class="sidebar-overlay"></div>
+        <div class="mobile-sidebar">
+          <div class="sidebar-header">
+            <h3>FAGO</h3>
+            <button class="sidebar-close"><i class="fas fa-times"></i></button>
+          </div>
+          <nav class="sidebar-nav">
+            <a href="/">Home</a>
+            <a href="/hotels">Hotels</a>
+            <a href="/deals">Deals</a>
+            <a href="/about">About</a>
+            <a href="/contact">Contact</a>
+          </nav>
+          <div class="sidebar-auth">
+            <a href="/login" class="login-btn">Login / Sign Up</a>
+          </div>
+        </div>
+      `;
+      document.body.insertAdjacentHTML('beforeend', sidebarHTML);
+    }
+    
+    function openSidebar() {
+      document.querySelector('.sidebar-overlay').classList.add('active');
+      document.querySelector('.mobile-sidebar').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+    
+    function closeSidebar() {
+      document.querySelector('.sidebar-overlay').classList.remove('active');
+      document.querySelector('.mobile-sidebar').classList.remove('active');
+      document.body.style.overflow = '';
+    }
+  </script>
+  <script src="../public/js/auth-navbar.js"></script>
+</body>
+</html>

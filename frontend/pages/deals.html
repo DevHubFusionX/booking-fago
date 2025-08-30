@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Deals - FAGO</title>
+  <link rel="stylesheet" href="../public/css/style.css">
+  <link rel="stylesheet" href="../public/css/deals.css">
+  <link rel="stylesheet" href="../public/css/skeleton.css">
+  <link rel="stylesheet" href="../public/css/auth-navbar.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+</head>
+<body>
+  <!-- Header / Navbar -->
+  <header class="navbar">
+    <div class="nav-container">
+      <div class="logo">
+        <h2>FAGO</h2>
+      </div>
+      
+      <nav class="nav-links">
+        <a href="/">Home</a>
+        <a href="/hotels">Hotels</a>
+        <a href="/deals" class="active">Deals</a>
+        <a href="/about">About</a>
+        <a href="/contact">Contact</a>
+      </nav>
+      
+      <div class="nav-auth">
+        <a href="/login" class="login-btn">Login / Sign Up</a>
+      </div>
+      
+      <div class="mobile-menu" id="mobile-menu">
+        <i class="fas fa-bars"></i>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="deals-hero">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <h1>Exclusive Deals & Discounts Just For You</h1>
+      <p>Save up to 50% on luxury hotels worldwide</p>
+      
+      <!-- Search Bar -->
+      <div class="search-container">
+        <form class="search-form" action="/hotels" method="GET">
+          <div class="search-grid">
+            <div class="search-field">
+              <i class="fas fa-map-marker-alt"></i>
+              <input type="text" name="destination" placeholder="Destination" required>
+            </div>
+            <div class="search-field">
+              <i class="fas fa-calendar-alt"></i>
+              <input type="date" name="checkin" id="checkin" required>
+            </div>
+            <div class="search-field">
+              <i class="fas fa-calendar-alt"></i>
+              <input type="date" name="checkout" id="checkout" required>
+            </div>
+            <div class="search-field">
+              <i class="fas fa-users"></i>
+              <select name="guests">
+                <option value="1">1 Guest</option>
+                <option value="2">2 Guests</option>
+                <option value="3">3 Guests</option>
+                <option value="4">4+ Guests</option>
+              </select>
+            </div>
+            <button type="submit" class="search-btn">Search Deals</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Deals Carousel -->
+  <section class="featured-deals">
+    <div class="container">
+      <h2 class="section-title">Top Deals This Week</h2>
+      <div class="deals-carousel skeleton-container" id="deals-carousel">
+        <!-- Deals loaded by JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Limited Time Countdown -->
+  <section class="countdown-deals">
+    <div class="container">
+      <div class="countdown-card">
+        <div class="countdown-content">
+          <h3>Flash Sale - Limited Time!</h3>
+          <p>Extra 20% off selected hotels</p>
+          <div class="countdown-timer" id="countdown">
+            <div class="time-unit">
+              <span id="hours">12</span>
+              <label>Hours</label>
+            </div>
+            <div class="time-unit">
+              <span id="minutes">34</span>
+              <label>Minutes</label>
+            </div>
+            <div class="time-unit">
+              <span id="seconds">56</span>
+              <label>Seconds</label>
+            </div>
+          </div>
+        </div>
+        <button class="flash-deal-btn">Shop Flash Deals</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Deals Grid -->
+  <section class="deals-grid-section">
+    <div class="container">
+      <div class="deals-layout">
+        <!-- Filters -->
+        <aside class="deals-filters">
+          <h3>Filter Deals</h3>
+          
+          <div class="filter-group">
+            <h4>Discount Range</h4>
+            <div class="discount-filters">
+              <label><input type="checkbox" value="10-20"> 10% - 20%</label>
+              <label><input type="checkbox" value="20-30"> 20% - 30%</label>
+              <label><input type="checkbox" value="30-40"> 30% - 40%</label>
+              <label><input type="checkbox" value="40+"> 40%+</label>
+            </div>
+          </div>
+
+          <div class="filter-group">
+            <h4>Price Range</h4>
+            <div class="price-range">
+              <input type="range" id="price-min" min="10000" max="100000" value="10000">
+              <input type="range" id="price-max" min="10000" max="100000" value="100000">
+              <div class="price-labels">
+                <span>₦10,000</span>
+                <span>₦100,000+</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="filter-group">
+            <h4>Star Rating</h4>
+            <div class="rating-filters">
+              <label><input type="checkbox" value="5"> ★★★★★</label>
+              <label><input type="checkbox" value="4"> ★★★★☆</label>
+              <label><input type="checkbox" value="3"> ★★★☆☆</label>
+            </div>
+          </div>
+        </aside>
+
+        <!-- Deals Main -->
+        <main class="deals-main">
+          <div class="deals-header">
+            <span class="deals-count">48 deals found</span>
+            <select class="sort-dropdown">
+              <option value="discount">Sort by Discount</option>
+              <option value="price">Sort by Price</option>
+              <option value="popular">Sort by Popularity</option>
+            </select>
+          </div>
+
+          <div class="deals-grid skeleton-container" id="deals-grid">
+            <!-- Deals loaded by JS -->
+          </div>
+        </main>
+      </div>
+    </div>
+  </section>
+
+  <!-- Newsletter Signup -->
+  <section class="newsletter-deals">
+    <div class="container">
+      <div class="newsletter-content">
+        <h2>Get notified about future deals straight to your inbox</h2>
+        <p>Be the first to know about exclusive offers and flash sales</p>
+        <form class="newsletter-signup">
+          <input type="email" placeholder="Enter your email address" required>
+          <button type="submit">Subscribe Now</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h3>FAGO</h3>
+          <p>Your trusted partner for hotel bookings worldwide.</p>
+        </div>
+        <div class="footer-section">
+          <h4>Company</h4>
+          <a href="#about">About Us</a>
+          <a href="#careers">Careers</a>
+          <a href="#faqs">FAQs</a>
+          <a href="/contact">Contact</a>
+        </div>
+        <div class="footer-section">
+          <h4>Follow Us</h4>
+          <div class="social-links">
+            <a href="#"><i class="fab fa-facebook"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-linkedin"></i></a>
+          </div>
+        </div>
+        <div class="footer-section">
+          <h4>Newsletter</h4>
+          <form class="newsletter-form">
+            <input type="email" placeholder="Your email">
+            <button type="submit">Subscribe</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../public/js/lazy-loading.js"></script>
+  <script src="../components/hotel-card.js"></script>
+  <script src="../public/js/auth-navbar.js"></script>
+  <script>
+    let dealsData = [];
+    let hotelsData = [];
+    
+    async function loadDealsFromAPI() {
+      try {
+        const hotelsResponse = await fetch('/api/hotels');
+        const hotelsResult = await hotelsResponse.json();
+        
+        if (hotelsResult.success && hotelsResult.hotels) {
+          hotelsData = hotelsResult.hotels;
+          // Create deal versions of hotels with discounts
+          dealsData = hotelsData.map(hotel => {
+            const price = hotel.rooms && hotel.rooms[0] ? hotel.rooms[0].price_per_night : 45000;
+            const discount = Math.floor(Math.random() * 30) + 15; // 15-45% discount
+            return {
+              _id: hotel._id,
+              name: hotel.name,
+              location: hotel.location,
+              image: hotel.images && hotel.images[0] ? hotel.images[0] : 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400',
+              rating: hotel.rating || 4.0,
+              originalPrice: price,
+              discountPrice: Math.floor(price * (100 - discount) / 100),
+              discount: discount,
+              amenities: hotel.amenities || []
+            };
+          });
+        } else {
+          // Fallback data if API fails
+          dealsData = createFallbackDeals();
+        }
+        
+      } catch (error) {
+        console.error('Error loading deals:', error);
+        dealsData = createFallbackDeals();
+      }
+    }
+    
+    function createFallbackDeals() {
+      return [
+        {
+          _id: 'deal1',
+          name: 'Grand Palace Hotel',
+          location: 'Victoria Island, Lagos',
+          image: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400',
+          rating: 4.8,
+          originalPrice: 45000,
+          discountPrice: 31500,
+          discount: 30,
+          amenities: ['Free WiFi', 'Pool', 'Spa']
+        },
+        {
+          _id: 'deal2',
+          name: 'Ocean View Resort',
+          location: 'Lekki, Lagos',
+          image: 'https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?w=400',
+          rating: 4.6,
+          originalPrice: 48000,
+          discountPrice: 33600,
+          discount: 30,
+          amenities: ['Beach Access', 'Restaurant', 'Bar']
+        },
+        {
+          _id: 'deal3',
+          name: 'Executive Suites',
+          location: 'Ikoyi, Lagos',
+          image: 'https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?w=400',
+          rating: 4.4,
+          originalPrice: 38000,
+          discountPrice: 26600,
+          discount: 30,
+          amenities: ['Business Center', 'Gym', 'WiFi']
+        }
+      ];
+    }
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      initMobileMenu();
+      await loadDealsFromAPI();
+      loadFeaturedDeals();
+      loadDealsGrid();
+      initCountdown();
+      initSearchForm();
+      setTimeout(() => {
+        if (typeof updateNavbarAuth === 'function') {
+          updateNavbarAuth();
+        }
+      }, 100);
+    });
+
+    function loadFeaturedDeals() {
+      const carousel = document.getElementById('deals-carousel');
+      if (window.showSkeletons) {
+        showSkeletons(carousel, 'deal-card', 3);
+      }
+      
+      setTimeout(() => {
+        const dealCards = dealsData.slice(0, 3).map(deal => createDealCarouselCard(deal)).join('');
+        if (window.hideSkeletons) {
+          hideSkeletons(carousel, dealCards);
+        } else {
+          carousel.innerHTML = dealCards;
+        }
+        if (window.lazyLoader) {
+          window.lazyLoader.observeImages();
+        }
+      }, 600);
+    }
+
+    function loadDealsGrid() {
+      const grid = document.getElementById('deals-grid');
+      if (window.showSkeletons) {
+        showSkeletons(grid, 'deal-card', 6);
+      }
+      
+      setTimeout(() => {
+        const dealCards = dealsData.map(deal => createDealCard(deal)).join('');
+        if (window.hideSkeletons) {
+          hideSkeletons(grid, dealCards);
+        } else {
+          grid.innerHTML = dealCards;
+        }
+        document.querySelector('.deals-count').textContent = `${dealsData.length} deals found`;
+        if (window.lazyLoader) {
+          window.lazyLoader.observeImages();
+        }
+      }, 800);
+    }
+
+    function createDealCarouselCard(deal) {
+      return `
+        <div class="deal-carousel-card lazy-content">
+          <div class="deal-image">
+            <img src="${deal.image}" alt="${deal.name}" style="width: 100%; height: 200px; object-fit: cover;">
+            <div class="discount-badge">-${deal.discount}% OFF</div>
+          </div>
+          <div class="deal-info">
+            <h3>${deal.name}</h3>
+            <p class="location"><i class="fas fa-map-marker-alt"></i> ${deal.location}</p>
+            <div class="price-info">
+              <span class="old-price">₦${deal.originalPrice.toLocaleString()}</span>
+              <span class="new-price">₦${deal.discountPrice.toLocaleString()}</span>
+            </div>
+            <button class="book-now-btn" onclick="location.href='/hotel/${deal._id}'">Book Now</button>
+          </div>
+        </div>
+      `;
+    }
+
+    function createDealCard(deal) {
+      return `
+        <div class="deal-card lazy-content">
+          <div class="deal-image">
+            <img src="${deal.image}" alt="${deal.name}" style="width: 100%; height: 200px; object-fit: cover;">
+            <div class="discount-badge">-${deal.discount}%</div>
+          </div>
+          <div class="deal-content">
+            <h3>${deal.name}</h3>
+            <p class="location"><i class="fas fa-map-marker-alt"></i> ${deal.location}</p>
+            <div class="rating">
+              ${createStars(deal.rating)}
+              <span>(${deal.rating})</span>
+            </div>
+            <p class="deal-description">Luxury accommodation with world-class amenities</p>
+            <div class="amenities">
+              ${deal.amenities ? deal.amenities.slice(0, 3).map(amenity => `<span class="amenity-tag"><i class="fas fa-check"></i> ${amenity}</span>`).join('') : ''}
+            </div>
+            <div class="price-section">
+              <div class="prices">
+                <span class="old-price">₦${deal.originalPrice.toLocaleString()}</span>
+                <span class="new-price">₦${deal.discountPrice.toLocaleString()}</span>
+              </div>
+              <button class="book-deal-btn" onclick="location.href='/hotel/${deal._id}'">Book Deal</button>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function createStars(rating) {
+      const fullStars = Math.floor(rating);
+      let stars = '';
+      for (let i = 0; i < fullStars; i++) {
+        stars += '<i class="fas fa-star"></i>';
+      }
+      if (rating % 1 !== 0) {
+        stars += '<i class="fas fa-star-half-alt"></i>';
+      }
+      const emptyStars = 5 - Math.ceil(rating);
+      for (let i = 0; i < emptyStars; i++) {
+        stars += '<i class="far fa-star"></i>';
+      }
+      return stars;
+    }
+
+    function initCountdown() {
+      const endTime = new Date().getTime() + (12 * 60 * 60 * 1000) + (34 * 60 * 1000) + (56 * 1000);
+      
+      setInterval(() => {
+        const now = new Date().getTime();
+        const distance = endTime - now;
+        
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        
+        document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+        document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+        document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+      }, 1000);
+    }
+
+    function initSearchForm() {
+      const today = new Date().toISOString().split('T')[0];
+      document.getElementById('checkin').min = today;
+      document.getElementById('checkout').min = today;
+      
+      document.getElementById('checkin').addEventListener('change', function() {
+        document.getElementById('checkout').min = this.value;
+      });
+    }
+
+    function initMobileMenu() {
+      createMobileSidebar();
+      document.getElementById('mobile-menu').addEventListener('click', openSidebar);
+      document.querySelector('.sidebar-close').addEventListener('click', closeSidebar);
+      document.querySelector('.sidebar-overlay').addEventListener('click', closeSidebar);
+    }
+    
+    function createMobileSidebar() {
+      const sidebarHTML = `
+        <div class="sidebar-overlay"></div>
+        <div class="mobile-sidebar">
+          <div class="sidebar-header">
+            <h3>FAGO</h3>
+            <button class="sidebar-close"><i class="fas fa-times"></i></button>
+          </div>
+          <nav class="sidebar-nav">
+            <a href="/">Home</a>
+            <a href="/hotels">Hotels</a>
+            <a href="/deals">Deals</a>
+            <a href="/about">About</a>
+            <a href="/contact">Contact</a>
+          </nav>
+          <div class="sidebar-auth">
+            <a href="/login" class="login-btn">Login / Sign Up</a>
+          </div>
+        </div>
+      `;
+      document.body.insertAdjacentHTML('beforeend', sidebarHTML);
+    }
+    
+    function openSidebar() {
+      document.querySelector('.sidebar-overlay').classList.add('active');
+      document.querySelector('.mobile-sidebar').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+    
+    function closeSidebar() {
+      document.querySelector('.sidebar-overlay').classList.remove('active');
+      document.querySelector('.mobile-sidebar').classList.remove('active');
+      document.body.style.overflow = '';
+    }
+  </script>
+</body>
+</html>

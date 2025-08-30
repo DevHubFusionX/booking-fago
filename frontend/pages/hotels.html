@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hotels - FAGO</title>
+  <link rel="stylesheet" href="../public/css/style.css">
+  <link rel="stylesheet" href="../public/css/skeleton.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+</head>
+<body>
+  <!-- Header / Navbar -->
+  <header class="navbar">
+    <div class="nav-container">
+      <div class="logo">
+        <h2>FAGO</h2>
+      </div>
+      
+      <nav class="nav-links">
+        <a href="/">Home</a>
+        <a href="/hotels" class="active">Hotels</a>
+        <a href="/deals">Deals</a>
+        <a href="/about">About</a>
+        <a href="/contact">Contact</a>
+      </nav>
+      
+      <div class="nav-auth">
+        <a href="/login" class="login-btn">Login / Sign Up</a>
+      </div>
+      
+      <div class="mobile-menu" id="mobile-menu">
+        <i class="fas fa-bars"></i>
+      </div>
+    </div>
+  </header>
+
+  <!-- Page Header -->
+  <section class="page-header">
+    <div class="container">
+      <div class="breadcrumb">
+        <a href="/">Home</a> > <a href="/hotels">Hotels</a> > <span id="destination-name">Lagos</span>
+      </div>
+      <h1 id="page-title">Available Hotels in Lagos</h1>
+    </div>
+  </section>
+
+  <!-- Hotels Page Content -->
+  <section class="hotels-page">
+    <div class="container">
+      <div class="hotels-layout">
+        <!-- Filters Sidebar -->
+        <aside class="filters-sidebar">
+          <div class="filters-header">
+            <h3>Filters</h3>
+            <button class="mobile-filter-toggle" id="mobile-filter-toggle">
+              <i class="fas fa-filter"></i>
+            </button>
+          </div>
+          
+          <div class="filters-content">
+            <!-- Price Range -->
+            <div class="filter-group">
+              <h4>Price Range</h4>
+              <div class="price-range">
+                <input type="range" id="price-min" min="10000" max="100000" value="10000">
+                <input type="range" id="price-max" min="10000" max="100000" value="100000">
+                <div class="price-labels">
+                  <span>₦10,000</span>
+                  <span>₦100,000+</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Star Rating -->
+            <div class="filter-group">
+              <h4>Star Rating</h4>
+              <div class="rating-filters">
+                <label><input type="checkbox" value="5"> <span class="stars">★★★★★</span></label>
+                <label><input type="checkbox" value="4"> <span class="stars">★★★★☆</span></label>
+                <label><input type="checkbox" value="3"> <span class="stars">★★★☆☆</span></label>
+              </div>
+            </div>
+
+            <!-- Location -->
+            <div class="filter-group">
+              <h4>Location</h4>
+              <div class="location-filters">
+                <label><input type="checkbox" value="victoria-island"> Victoria Island</label>
+                <label><input type="checkbox" value="ikoyi"> Ikoyi</label>
+                <label><input type="checkbox" value="lekki"> Lekki</label>
+                <label><input type="checkbox" value="ikeja"> Ikeja</label>
+              </div>
+            </div>
+
+            <!-- Amenities -->
+            <div class="filter-group">
+              <h4>Amenities</h4>
+              <div class="amenity-filters">
+                <label><input type="checkbox" value="wifi"> <i class="fas fa-wifi"></i> Free WiFi</label>
+                <label><input type="checkbox" value="pool"> <i class="fas fa-swimming-pool"></i> Pool</label>
+                <label><input type="checkbox" value="gym"> <i class="fas fa-dumbbell"></i> Gym</label>
+                <label><input type="checkbox" value="spa"> <i class="fas fa-spa"></i> Spa</label>
+                <label><input type="checkbox" value="parking"> <i class="fas fa-car"></i> Parking</label>
+                <label><input type="checkbox" value="breakfast"> <i class="fas fa-coffee"></i> Breakfast</label>
+              </div>
+            </div>
+
+            <!-- Property Type -->
+            <div class="filter-group">
+              <h4>Property Type</h4>
+              <div class="property-filters">
+                <label><input type="checkbox" value="hotel"> Hotel</label>
+                <label><input type="checkbox" value="apartment"> Apartment</label>
+                <label><input type="checkbox" value="resort"> Resort</label>
+              </div>
+            </div>
+
+            <button class="apply-filters-btn">Apply Filters</button>
+          </div>
+        </aside>
+
+        <!-- Hotel Listings -->
+        <main class="hotels-main">
+          <!-- Sorting & Results -->
+          <div class="results-header">
+            <div class="results-info">
+              <span id="results-count">24 hotels found</span>
+            </div>
+            <div class="sort-controls">
+              <label>Sort by:</label>
+              <select id="sort-dropdown">
+                <option value="price-low">Price (Low → High)</option>
+                <option value="price-high">Price (High → Low)</option>
+                <option value="rating">Rating</option>
+                <option value="popular">Popularity</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Hotel Cards Grid -->
+          <div class="hotels-grid skeleton-container" id="hotels-grid">
+            <!-- Hotels loaded by JS -->
+          </div>
+
+          <!-- Pagination -->
+          <div class="pagination">
+            <button class="page-btn" disabled>Prev</button>
+            <button class="page-btn active">1</button>
+            <button class="page-btn">2</button>
+            <button class="page-btn">3</button>
+            <button class="page-btn">Next</button>
+          </div>
+        </main>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h3>FAGO</h3>
+          <p>Your trusted partner for hotel bookings worldwide.</p>
+        </div>
+        <div class="footer-section">
+          <h4>Company</h4>
+          <a href="#about">About Us</a>
+          <a href="#careers">Careers</a>
+          <a href="#faqs">FAQs</a>
+          <a href="/contact">Contact</a>
+        </div>
+        <div class="footer-section">
+          <h4>Follow Us</h4>
+          <div class="social-links">
+            <a href="#"><i class="fab fa-facebook"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-linkedin"></i></a>
+          </div>
+        </div>
+        <div class="footer-section">
+          <h4>Newsletter</h4>
+          <form class="newsletter-form">
+            <input type="email" placeholder="Your email">
+            <button type="submit">Subscribe</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../public/js/lazy-loading.js"></script>
+  <script src="../components/hotel-card.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      initMobileMenu();
+      await updateAuthState();
+      await loadHotelsFromAPI();
+      initFilters();
+      handleSearchParams();
+    });
+    
+    async function updateAuthState() {
+      try {
+        const response = await fetch('/api/user', { credentials: 'include' });
+        const data = await response.json();
+        
+        const navAuth = document.querySelector('.nav-auth');
+        const sidebarAuth = document.querySelector('.sidebar-auth');
+        
+        if (data.user) {
+          const authHTML = `<span class="user-name">Hi, ${data.user.name.split(' ')[0]} | <a href="/dashboard">Dashboard</a> | <a href="#" onclick="logout()">Logout</a></span>`;
+          if (navAuth) navAuth.innerHTML = authHTML;
+          if (sidebarAuth) sidebarAuth.innerHTML = authHTML;
+        }
+      } catch (error) {
+        console.error('Failed to update auth state:', error);
+      }
+    }
+    
+    async function logout() {
+      try {
+        await fetch('/api/logout', { method: 'POST' });
+        window.location.href = '/';
+      } catch (error) {
+        console.error('Logout failed:', error);
+      }
+    }
+
+    async function loadHotelsFromAPI() {
+      const grid = document.getElementById('hotels-grid');
+      
+      // Show skeletons while loading
+      showSkeletons(grid, 'hotel-list', 6);
+      
+      try {
+        allHotels = await fetchHotels();
+        currentHotels = [...allHotels];
+        
+        // Simulate loading delay for better UX
+        await new Promise(resolve => setTimeout(resolve, 800));
+        
+        loadHotels();
+      } catch (error) {
+        console.error('Error loading hotels:', error);
+        hideSkeletons(grid, '<p class="error-message">Failed to load hotels. Please try again later.</p>');
+      }
+    }
+
+    function loadHotels() {
+      const grid = document.getElementById('hotels-grid');
+      const hotelCards = currentHotels.map(hotel => createHotelListCard(hotel)).join('');
+      
+      hideSkeletons(grid, hotelCards);
+      document.getElementById('results-count').textContent = `${currentHotels.length} hotels found`;
+    }
+
+    function initFilters() {
+      document.getElementById('sort-dropdown').addEventListener('change', sortHotels);
+      document.querySelectorAll('.filter-group input[type="checkbox"]').forEach(cb => {
+        cb.addEventListener('change', filterHotels);
+      });
+      document.querySelectorAll('input[type="range"]').forEach(slider => {
+        slider.addEventListener('input', updatePriceLabels);
+        slider.addEventListener('change', filterHotels);
+      });
+      document.querySelector('.apply-filters-btn').addEventListener('click', filterHotels);
+      
+      // Mobile filter toggle
+      document.getElementById('mobile-filter-toggle').addEventListener('click', () => {
+        document.querySelector('.filters-sidebar').classList.toggle('active');
+      });
+    }
+
+    function sortHotels() {
+      const sortValue = document.getElementById('sort-dropdown').value;
+      currentHotels.sort((a, b) => {
+        switch(sortValue) {
+          case 'price-low': return a.price - b.price;
+          case 'price-high': return b.price - a.price;
+          case 'rating': return b.rating - a.rating;
+          default: return 0;
+        }
+      });
+      loadHotels();
+    }
+
+    function filterHotels() {
+      const minPrice = parseInt(document.getElementById('price-min').value);
+      const maxPrice = parseInt(document.getElementById('price-max').value);
+      
+      currentHotels = allHotels.filter(hotel => {
+        const price = hotel.rooms && hotel.rooms[0] ? hotel.rooms[0].price_per_night : 0;
+        return price >= minPrice && price <= maxPrice;
+      });
+      loadHotels();
+    }
+
+    function updatePriceLabels() {
+      const min = document.getElementById('price-min').value;
+      const max = document.getElementById('price-max').value;
+      const labels = document.querySelector('.price-labels');
+      labels.innerHTML = `<span>₦${parseInt(min).toLocaleString()}</span><span>₦${parseInt(max).toLocaleString()}+</span>`;
+    }
+
+    function handleSearchParams() {
+      const params = new URLSearchParams(window.location.search);
+      const destination = params.get('destination');
+      if (destination) {
+        document.getElementById('destination-name').textContent = destination;
+        document.getElementById('page-title').textContent = `Available Hotels in ${destination}`;
+      }
+    }
+
+    function initMobileMenu() {
+      createMobileSidebar();
+      document.getElementById('mobile-menu').addEventListener('click', openSidebar);
+      document.querySelector('.sidebar-close').addEventListener('click', closeSidebar);
+      document.querySelector('.sidebar-overlay').addEventListener('click', closeSidebar);
+    }
+    
+    function createMobileSidebar() {
+      const sidebarHTML = `
+        <div class="sidebar-overlay"></div>
+        <div class="mobile-sidebar">
+          <div class="sidebar-header">
+            <h3>FAGO</h3>
+            <button class="sidebar-close"><i class="fas fa-times"></i></button>
+          </div>
+          <nav class="sidebar-nav">
+            <a href="/">Home</a>
+            <a href="/hotels">Hotels</a>
+            <a href="/deals">Deals</a>
+            <a href="/about">About</a>
+            <a href="/contact">Contact</a>
+          </nav>
+          <div class="sidebar-auth">
+            <a href="/login" class="login-btn">Login / Sign Up</a>
+          </div>
+        </div>
+      `;
+      document.body.insertAdjacentHTML('beforeend', sidebarHTML);
+      
+      // Update auth state for sidebar after creation
+      setTimeout(updateAuthState, 100);
+    }
+    
+    function openSidebar() {
+      document.querySelector('.sidebar-overlay').classList.add('active');
+      document.querySelector('.mobile-sidebar').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+    
+    function closeSidebar() {
+      document.querySelector('.sidebar-overlay').classList.remove('active');
+      document.querySelector('.mobile-sidebar').classList.remove('active');
+      document.body.style.overflow = '';
+    }
+  </script>
+</body>
+</html>

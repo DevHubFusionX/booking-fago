@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hotel Details - Fago's Booking</title>
+  <link rel="stylesheet" href="../public/css/style.css">
+  <link rel="stylesheet" href="../public/css/hotel-details.css">
+  <link rel="stylesheet" href="../public/css/room-selection.css">
+  <link rel="stylesheet" href="../public/css/auth-navbar.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+</head>
+<body>
+  <!-- Header / Navbar -->
+  <header class="navbar">
+    <div class="nav-container">
+      <div class="logo">
+        <h2>FAGO</h2>
+      </div>
+      
+      <nav class="nav-links">
+        <a href="/">Home</a>
+        <a href="/hotels">Hotels</a>
+        <a href="/deals">Deals</a>
+        <a href="/about">About</a>
+        <a href="/contact">Contact</a>
+      </nav>
+      
+      <div class="nav-auth">
+        <a href="/login" class="login-btn">Login / Sign Up</a>
+      </div>
+      
+      <div class="mobile-menu" id="mobile-menu">
+        <i class="fas fa-bars"></i>
+      </div>
+    </div>
+  </header>
+
+  <section class="hotel-details-page">
+    <div class="container">
+      <!-- Hotel Gallery -->
+      <div class="hotel-gallery">
+        <div class="main-image">
+          <img id="main-hotel-image" src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800" alt="Hotel">
+        </div>
+        <div class="thumbnail-images">
+          <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=200" onclick="changeImage(this.src)" alt="Hotel 1">
+          <img src="https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?w=200" onclick="changeImage(this.src)" alt="Hotel 2">
+          <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=200" onclick="changeImage(this.src)" alt="Hotel 3">
+        </div>
+      </div>
+
+      <div class="hotel-content">
+        <!-- Hotel Info -->
+        <div class="hotel-main-details">
+          <div class="hotel-header">
+            <h1 id="hotel-name">Grand Palace Hotel</h1>
+            <div class="rating">
+              <div class="stars">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+              </div>
+              <span>4.8 (124 reviews)</span>
+            </div>
+            <p class="location"><i class="fas fa-map-marker-alt"></i> Lagos, Nigeria</p>
+          </div>
+
+          <div class="hotel-description">
+            <h3>About This Hotel</h3>
+            <p>Experience luxury at its finest at Grand Palace Hotel. Located in the heart of Lagos, our hotel offers world-class amenities, exceptional service, and elegant accommodations for both business and leisure travelers.</p>
+          </div>
+
+          <div class="amenities-section">
+            <h3>Amenities</h3>
+            <div class="amenities-grid">
+              <div class="amenity"><i class="fas fa-wifi"></i> Free WiFi</div>
+              <div class="amenity"><i class="fas fa-swimming-pool"></i> Swimming Pool</div>
+              <div class="amenity"><i class="fas fa-dumbbell"></i> Fitness Center</div>
+              <div class="amenity"><i class="fas fa-spa"></i> Spa & Wellness</div>
+              <div class="amenity"><i class="fas fa-utensils"></i> Restaurant</div>
+              <div class="amenity"><i class="fas fa-car"></i> Free Parking</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Booking Card -->
+        <div class="booking-card">
+          <div class="room-selection" id="room-selection">
+            <h3>Select Room Type</h3>
+            <div class="rooms-list" id="rooms-list">
+              <!-- Rooms loaded dynamically -->
+            </div>
+          </div>
+
+          <form class="booking-form" id="booking-form">
+            <div class="date-inputs">
+              <div class="input-group">
+                <label>Check-in</label>
+                <input type="date" id="checkin" required>
+              </div>
+              <div class="input-group">
+                <label>Check-out</label>
+                <input type="date" id="checkout" required>
+              </div>
+            </div>
+
+            <div class="input-group">
+              <label>Guests</label>
+              <select id="guests">
+                <option value="1">1 Guest</option>
+                <option value="2">2 Guests</option>
+                <option value="3">3 Guests</option>
+                <option value="4">4+ Guests</option>
+              </select>
+            </div>
+
+            <div class="booking-summary" id="booking-summary">
+              <div class="summary-row">
+                <span>Select a room to see pricing</span>
+                <span></span>
+              </div>
+            </div>
+
+            <button type="submit" class="book-now-btn" id="book-now-btn" disabled>Select Room First</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script src="../public/js/lazy-loading.js"></script>
+  <script src="../public/js/booking-utils.js"></script>
+  <script src="../public/js/ui-helpers.js"></script>
+  <script src="../public/js/booking-form.js"></script>
+  <script src="../public/js/hotel-details.js"></script>
+  <script src="../components/header.js"></script>
+  <script src="../public/js/auth-navbar.js"></script>
+</body>
+</html>

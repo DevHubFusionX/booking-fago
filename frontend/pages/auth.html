@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login | Register - Fago's Booking</title>
+  <link rel="stylesheet" href="../public/css/auth.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+</head>
+<body>
+  <div class="auth-container">
+    <div class="auth-card">
+      <!-- Left Column - Branding -->
+      <div class="brand-column">
+        <div class="logo">
+          <h1>FAGO</h1>
+        </div>
+        
+        <div class="welcome-content" id="welcome-content">
+          <h2>Welcome Back</h2>
+          <p>Book your perfect stay with us</p>
+        </div>
+        
+        <div class="brand-illustration">
+          <i class="fas fa-hotel"></i>
+        </div>
+      </div>
+
+      <!-- Right Column - Forms -->
+      <div class="form-column">
+        <div class="back-link">
+          <a href="/"><i class="fas fa-arrow-left"></i> Back to Home</a>
+        </div>
+
+        <!-- Login Form -->
+        <div class="form-container active" id="login-form">
+          <h2>Login</h2>
+          
+          <div class="error-message" id="login-error" style="display: none;">
+            <span id="login-error-text"></span>
+          </div>
+          
+          <form id="login-form-element">
+            <div class="input-group">
+              <label>Email</label>
+              <div class="input-wrapper">
+                <i class="fas fa-envelope"></i>
+                <input type="email" name="email" placeholder="Enter your email" required>
+              </div>
+            </div>
+            
+            <div class="input-group">
+              <label>Password</label>
+              <div class="input-wrapper">
+                <i class="fas fa-lock"></i>
+                <input type="password" name="password" placeholder="Enter your password" required>
+              </div>
+            </div>
+            
+            <button type="submit" class="primary-btn">Sign In</button>
+            
+            <div class="form-links">
+              <a href="#" class="forgot-link">Forgot Password?</a>
+              <p>Don't have an account? <a href="#" onclick="switchToSignup()">Create Account</a></p>
+            </div>
+          </form>
+        </div>
+
+        <!-- Signup Form -->
+        <div class="form-container" id="register-form">
+          <h2>Create Account</h2>
+          
+          <div class="error-message" id="register-error" style="display: none;">
+            <span id="register-error-text"></span>
+          </div>
+          
+          <form id="register-form-element">
+            <div class="input-group">
+              <label>Full Name</label>
+              <div class="input-wrapper">
+                <i class="fas fa-user"></i>
+                <input type="text" name="name" placeholder="Enter your full name" required>
+              </div>
+            </div>
+            
+            <div class="input-group">
+              <label>Email</label>
+              <div class="input-wrapper">
+                <i class="fas fa-envelope"></i>
+                <input type="email" name="email" placeholder="Enter your email" required>
+              </div>
+            </div>
+            
+            <div class="input-group">
+              <label>Password</label>
+              <div class="input-wrapper">
+                <i class="fas fa-lock"></i>
+                <input type="password" name="password" placeholder="Create a password" required minlength="6">
+              </div>
+            </div>
+            
+            <div class="input-group">
+              <label>Confirm Password</label>
+              <div class="input-wrapper">
+                <i class="fas fa-lock"></i>
+                <input type="password" name="confirmPassword" placeholder="Confirm your password" required>
+              </div>
+            </div>
+            
+            <button type="submit" class="primary-btn">Create Account</button>
+            
+            <div class="form-links">
+              <p>Already have an account? <a href="#" onclick="switchToLogin()">Sign In</a></p>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function switchToSignup() {
+      document.getElementById('login-form').classList.remove('active');
+      document.getElementById('register-form').classList.add('active');
+      document.getElementById('welcome-content').innerHTML = '<h2>Join Us</h2><p>Book your perfect stay with us</p>';
+      hideErrors();
+    }
+
+    function switchToLogin() {
+      document.getElementById('register-form').classList.remove('active');
+      document.getElementById('login-form').classList.add('active');
+      document.getElementById('welcome-content').innerHTML = '<h2>Welcome Back</h2><p>Book your perfect stay with us</p>';
+      hideErrors();
+    }
+
+    function hideErrors() {
+      document.getElementById('login-error').style.display = 'none';
+      document.getElementById('register-error').style.display = 'none';
+    }
+
+    function showError(formType, message) {
+      const errorElement = document.getElementById(`${formType}-error`);
+      const errorText = document.getElementById(`${formType}-error-text`);
+      errorText.textContent = message;
+      errorElement.style.display = 'block';
+    }
+
+    // Login form handler
+    document.getElementById('login-form-element').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      hideErrors();
+      
+      const formData = new FormData(e.target);
+      const data = Object.fromEntries(formData);
+      
+      try {
+        const response = await fetch('/api/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+          window.location.href = '/';
+        } else {
+          showError('login', result.message);
+        }
+      } catch (error) {
+        showError('login', 'Login failed. Please try again.');
+      }
+    });
+
+    // Register form handler
+    document.getElementById('register-form-element').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      hideErrors();
+      
+      const formData = new FormData(e.target);
+      const data = Object.fromEntries(formData);
+      
+      if (data.password !== data.confirmPassword) {
+        showError('register', 'Passwords do not match');
+        return;
+      }
+      
+      try {
+        const response = await fetch('/api/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+          alert('Registration successful! Please login.');
+          switchToLogin();
+        } else {
+          showError('register', result.message);
+        }
+      } catch (error) {
+        showError('register', 'Registration failed. Please try again.');
+      }
+    });
+  </script>
+</body>
+</html>

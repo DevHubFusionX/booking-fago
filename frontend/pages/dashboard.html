@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Dashboard - Fago's Booking</title>
+  <link rel="stylesheet" href="../public/css/style.css">
+  <link rel="stylesheet" href="../public/css/dashboard.css">
+  <link rel="stylesheet" href="../public/css/skeleton.css">
+  <link rel="stylesheet" href="../public/css/auth-navbar.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+</head>
+<body>
+  <!-- Header / Navbar -->
+  <header class="navbar">
+    <div class="nav-container">
+      <div class="logo">
+        <h2>FAGO</h2>
+      </div>
+      
+      <nav class="nav-links">
+        <a href="/">Home</a>
+        <a href="/hotels">Hotels</a>
+        <a href="/deals">Deals</a>
+        <a href="/about">About</a>
+        <a href="/contact">Contact</a>
+      </nav>
+      
+      <div class="nav-auth">
+        <a href="/dashboard" class="login-btn">Dashboard</a>
+      </div>
+      
+      <div class="mobile-menu" id="mobile-menu">
+        <i class="fas fa-bars"></i>
+      </div>
+    </div>
+  </header>
+
+  <section class="dashboard-page">
+    <div class="container">
+      <div class="dashboard-header">
+        <h1>My Dashboard</h1>
+        <p>Welcome back, <span id="user-name">User</span>!</p>
+      </div>
+
+      <div class="dashboard-content">
+        <!-- Dashboard Navigation -->
+        <div class="dashboard-nav">
+          <div class="nav-item active" data-tab="bookings">
+            <i class="fas fa-calendar-check"></i>
+            <span>My Bookings</span>
+          </div>
+          <div class="nav-item" data-tab="profile">
+            <i class="fas fa-user"></i>
+            <span>Profile</span>
+          </div>
+          <div class="nav-item" data-tab="favorites">
+            <i class="fas fa-heart"></i>
+            <span>Favorites</span>
+          </div>
+        </div>
+
+        <!-- Dashboard Sections -->
+        <div class="dashboard-main">
+          <!-- My Bookings -->
+          <div class="dashboard-section active" id="bookings">
+            <h2>My Bookings</h2>
+            
+            <div class="booking-filters">
+              <button class="filter-btn active" data-filter="all">All Bookings</button>
+              <button class="filter-btn" data-filter="upcoming">Upcoming</button>
+              <button class="filter-btn" data-filter="past">Past</button>
+              <button class="filter-btn" data-filter="cancelled">Cancelled</button>
+            </div>
+
+            <div class="bookings-list skeleton-container" id="bookings-list">
+              <div class="loading-message">Loading your bookings...</div>
+            </div>
+          </div>
+
+          <!-- Profile Section -->
+          <div class="dashboard-section" id="profile">
+            <h2>Profile Settings</h2>
+            
+            <form class="profile-form">
+              <div class="form-row">
+                <div class="input-group">
+                  <label>First Name</label>
+                  <input type="text" name="firstName" value="John">
+                </div>
+                <div class="input-group">
+                  <label>Last Name</label>
+                  <input type="text" name="lastName" value="Doe">
+                </div>
+              </div>
+              
+              <div class="input-group">
+                <label>Email</label>
+                <input type="email" name="email" value="john.doe@example.com">
+              </div>
+              
+              <div class="input-group">
+                <label>Phone</label>
+                <input type="tel" name="phone" value="+234 123 456 7890">
+              </div>
+              
+              <div class="input-group">
+                <label>Date of Birth</label>
+                <input type="date" name="dob">
+              </div>
+
+              <button type="submit" class="btn-primary">Update Profile</button>
+            </form>
+          </div>
+
+          <!-- Favorites Section -->
+          <div class="dashboard-section" id="favorites">
+            <h2>Favorite Hotels</h2>
+            
+            <div class="favorites-grid">
+              <div class="favorite-hotel">
+                <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=200" alt="Hotel">
+                <div class="hotel-info">
+                  <h3>Grand Palace Hotel</h3>
+                  <p><i class="fas fa-map-marker-alt"></i> Lagos, Nigeria</p>
+                  <div class="rating">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <span>4.8</span>
+                  </div>
+                  <span class="price">₦45,000/night</span>
+                </div>
+                <div class="favorite-actions">
+                  <button class="btn-primary">Book Now</button>
+                  <button class="btn-remove"><i class="fas fa-heart"></i></button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script src="../public/js/lazy-loading.js"></script>
+  <script src="../public/js/ui-helpers.js"></script>
+  <script src="../public/js/booking-modal.js"></script>
+  <script src="../public/js/booking-management.js"></script>
+  <script src="../public/js/dashboard.js"></script>
+  <script src="../components/header.js"></script>
+
+  <script src="../public/js/auth-navbar.js"></script>
+</body>
+</html>
