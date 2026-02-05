@@ -12,23 +12,30 @@ const app = express();
 
 // Configure middleware
 function setupMiddleware(app) {
+  // Trust proxy for secure sessions on Render
+  app.set('trust proxy', 1);
+
   // Enable Cross-Origin Resource Sharing for API access
   const allowedOrigins = [
     'http://localhost:3000',
     'http://localhost:5500',
     'http://127.0.0.1:5500',
-    process.env.FRONTEND_URL // To be set on Render
+    'https://booking-fago.onrender.com',
+    process.env.FRONTEND_URL
   ].filter(Boolean);
 
   app.use(cors({
     origin: function (origin, callback) {
       // Allow requests with no origin (like mobile apps or curl)
       if (!origin) return callback(null, true);
-      if (allowedOrigins.indexOf(origin) === -1) {
-        const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
-        return callback(new Error(msg), false);
+
+      if (allowedOrigins.indexOf(origin) !== -1) {
+        return callback(null, true);
+      } else {
+        // Return null instead of Error to avoid 500 error in Express
+        // The cors middleware will handle this by not setting CORS headers
+        return callback(null, false);
       }
-      return callback(null, true);
     },
     credentials: true // Allow cookies/sessions across origins
   }));
