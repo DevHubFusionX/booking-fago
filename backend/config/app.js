@@ -13,26 +13,48 @@ const app = express();
 // Configure middleware
 function setupMiddleware(app) {
   // Enable Cross-Origin Resource Sharing for API access
-  app.use(cors());
-  
+  const allowedOrigins = [
+    'http://localhost:3000',
+    'http://localhost:5500',
+    'http://127.0.0.1:5500',
+    process.env.FRONTEND_URL // To be set on Render
+  ].filter(Boolean);
+
+  app.use(cors({
+    origin: function (origin, callback) {
+      // Allow requests with no origin (like mobile apps or curl)
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.indexOf(origin) === -1) {
+        const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
+        return callback(new Error(msg), false);
+      }
+      return callback(null, true);
+    },
+    credentials: true // Allow cookies/sessions across origins
+  }));
+
   // Parse JSON request bodies (for API endpoints)
   app.use(express.json());
-  
+
   // Parse URL-encoded form data (for form submissions)
   app.use(express.urlencoded({ extended: true }));
-  
+
   // Serve static files from frontend directory
   app.use(express.static(path.join(__dirname, '../../frontend')));
-  
+
   // Configure session management for user authentication
+  const isProduction = process.env.NODE_ENV === 'production';
+
   app.use(session({
-    secret: 'fagos-booking-secret', // Secret key for session encryption
+    secret: process.env.SESSION_SECRET || 'fagos-booking-secret', // Use environment variable for secret
     resave: false, // Don't save session if unmodified
     saveUninitialized: false, // Don't create session until something stored
+    proxy: isProduction, // Trust the reverse proxy in production
     cookie: {
-      secure: false, // Set to true in production with HTTPS
+      secure: isProduction, // Set to true in production with HTTPS
       httpOnly: true, // Prevent XSS attacks by making cookie inaccessible to JavaScript
-      maxAge: 24 * 60 * 60 * 1000 // Session expires after 24 hours
+      maxAge: 24 * 60 * 60 * 1000, // Session expires after 24 hours
+      sameSite: isProduction ? 'none' : 'lax' // Required for cross-site cookies in production
     }
   }));
 }

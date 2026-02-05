@@ -3,7 +3,7 @@ class BookingUtils {
   static formatCurrency(amount) {
     return `₦${amount.toLocaleString()}`;
   }
-  
+
   static formatDate(dateString) {
     const date = new Date(dateString);
     return date.toLocaleDateString('en-US', {
@@ -12,72 +12,72 @@ class BookingUtils {
       year: 'numeric'
     });
   }
-  
+
   static calculateNights(checkin, checkout) {
     const checkinDate = new Date(checkin);
     const checkoutDate = new Date(checkout);
     return Math.ceil((checkoutDate - checkinDate) / (1000 * 60 * 60 * 24));
   }
-  
+
   static calculateTotal(pricePerNight, nights, serviceFeeRate = 0.05) {
     const subtotal = pricePerNight * nights;
     const serviceFee = subtotal * serviceFeeRate;
     const total = subtotal + serviceFee;
-    
+
     return {
       subtotal,
       serviceFee,
       total
     };
   }
-  
+
   static validateBookingData(bookingData) {
     const required = ['hotelId', 'hotelName', 'checkin', 'checkout', 'guests', 'roomType', 'pricePerNight'];
     const missing = required.filter(field => !bookingData[field]);
-    
+
     if (missing.length > 0) {
       throw new Error(`Missing required booking data: ${missing.join(', ')}`);
     }
-    
+
     // Validate dates
     const checkin = new Date(bookingData.checkin);
     const checkout = new Date(bookingData.checkout);
     const today = new Date();
     today.setHours(0, 0, 0, 0);
-    
+
     if (checkin < today) {
       throw new Error('Check-in date cannot be in the past');
     }
-    
+
     if (checkout <= checkin) {
       throw new Error('Check-out date must be after check-in date');
     }
-    
+
     return true;
   }
-  
+
   static validateGuestDetails(guestDetails) {
     const required = ['firstName', 'lastName', 'email', 'phone'];
     const missing = required.filter(field => !guestDetails[field] || guestDetails[field].trim() === '');
-    
+
     if (missing.length > 0) {
       throw new Error(`Please fill in all required fields: ${missing.join(', ')}`);
     }
-    
+
     // Validate email format
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(guestDetails.email)) {
       throw new Error('Please enter a valid email address');
     }
-    
+
     return true;
   }
-  
+
   static showError(message, duration = 5000) {
     // Remove existing error messages
     const existingErrors = document.querySelectorAll('.booking-error');
     existingErrors.forEach(error => error.remove());
-    
+
     // Create error element
     const errorDiv = document.createElement('div');
     errorDiv.className = 'booking-error';
@@ -90,7 +90,7 @@ class BookingUtils {
         </button>
       </div>
     `;
-    
+
     // Add styles
     errorDiv.style.cssText = `
       position: fixed;
@@ -105,9 +105,9 @@ class BookingUtils {
       max-width: 400px;
       animation: slideIn 0.3s ease;
     `;
-    
+
     document.body.appendChild(errorDiv);
-    
+
     // Auto remove after duration
     setTimeout(() => {
       if (errorDiv.parentElement) {
@@ -115,12 +115,12 @@ class BookingUtils {
       }
     }, duration);
   }
-  
+
   static showSuccess(message, duration = 5000) {
     // Remove existing success messages
     const existingSuccess = document.querySelectorAll('.booking-success');
     existingSuccess.forEach(success => success.remove());
-    
+
     // Create success element
     const successDiv = document.createElement('div');
     successDiv.className = 'booking-success';
@@ -133,7 +133,7 @@ class BookingUtils {
         </button>
       </div>
     `;
-    
+
     // Add styles
     successDiv.style.cssText = `
       position: fixed;
@@ -148,9 +148,9 @@ class BookingUtils {
       max-width: 400px;
       animation: slideIn 0.3s ease;
     `;
-    
+
     document.body.appendChild(successDiv);
-    
+
     // Auto remove after duration
     setTimeout(() => {
       if (successDiv.parentElement) {
@@ -158,7 +158,7 @@ class BookingUtils {
       }
     }, duration);
   }
-  
+
   static showLoading(element, text = 'Loading...') {
     const originalContent = element.innerHTML;
     element.dataset.originalContent = originalContent;
@@ -168,7 +168,7 @@ class BookingUtils {
     `;
     element.disabled = true;
   }
-  
+
   static hideLoading(element) {
     if (element.dataset.originalContent) {
       element.innerHTML = element.dataset.originalContent;
@@ -176,30 +176,33 @@ class BookingUtils {
     }
     element.disabled = false;
   }
-  
+
   static async makeAPIRequest(url, options = {}) {
     try {
-      const response = await fetch(url, {
+      // Ensure the URL is absolute if it starts with /api
+      const fullUrl = url.startsWith('/') && window.API_BASE_URL ? `${window.API_BASE_URL}${url}` : url;
+
+      const response = await fetch(fullUrl, {
         headers: {
           'Content-Type': 'application/json',
           ...options.headers
         },
         ...options
       });
-      
+
       const data = await response.json();
-      
+
       if (!response.ok) {
         throw new Error(data.message || `HTTP error! status: ${response.status}`);
       }
-      
+
       return data;
     } catch (error) {
       console.error('API Request failed:', error);
       throw error;
     }
   }
-  
+
   static debounce(func, wait) {
     let timeout;
     return function executedFunction(...args) {
@@ -211,7 +214,7 @@ class BookingUtils {
       timeout = setTimeout(later, wait);
     };
   }
-  
+
   static generateBookingReference() {
     const timestamp = Date.now().toString(36);
     const random = Math.random().toString(36).substr(2, 5);

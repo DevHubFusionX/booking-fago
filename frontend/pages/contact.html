@@ -235,7 +235,7 @@
         submitBtn.textContent = 'Sending...';
         
         try {
-          const response = await fetch('/api/contact', {
+          const response = await fetch(`${window.API_BASE_URL || ''}/api/contact`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'
@@ -320,6 +320,8 @@
       document.body.style.overflow = '';
     }
   </script>
+  <script src="../public/js/api-config.js"></script>
+  <script src="../public/js/lazy-loading.js"></script>
   <script src="../public/js/auth-navbar.js"></script>
 </body>
 </html>

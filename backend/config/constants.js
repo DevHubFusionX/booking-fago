@@ -6,9 +6,18 @@ const PORT = process.env.PORT || 3001;
 // Paystack payment gateway secret key from environment variables
 const PAYSTACK_SECRET_KEY = process.env.PAYSTACK_SECRET_KEY;
 
+// MongoDB URI from environment variables
+const MONGODB_URI = process.env.MONGODB_URI;
+
+// Environment mode
+const NODE_ENV = process.env.NODE_ENV || 'development';
+
 // Validate required environment variables
 if (!PAYSTACK_SECRET_KEY) {
   console.error('❌ PAYSTACK_SECRET_KEY not found in environment variables');
+}
+if (!MONGODB_URI) {
+  console.error('❌ MONGODB_URI not found in environment variables');
 }
 
 // API endpoints configuration
@@ -52,6 +61,8 @@ const BOOKING_STATUS = {
 module.exports = {
   PORT,
   PAYSTACK_SECRET_KEY,
+  MONGODB_URI,
+  NODE_ENV,
   API_ENDPOINTS,
   COLLECTIONS,
   USER_ROLES,

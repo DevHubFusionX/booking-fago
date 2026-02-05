@@ -1,4 +1,5 @@
 const { MongoClient, ObjectId } = require('mongodb');
+const { MONGODB_URI } = require('./config/constants');
 
 class Database {
   constructor() {
@@ -8,25 +9,30 @@ class Database {
   }
 
   async connect() {
-    const uri = 'mongodb+srv://fanyanwu83_db_user:qHYDbHosufdcmMsx@cluster0.ptfvedj.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
-    
+    const uri = MONGODB_URI;
+
+    if (!uri) {
+      console.error('❌ MongoDB URI is not defined. Check your .env file.');
+      return false;
+    }
+
     try {
       console.log('🔄 Connecting to MongoDB Atlas...');
-      
+
       this.client = new MongoClient(uri);
       await this.client.connect();
-      
+
       this.db = this.client.db('fagos_booking');
-      
+
       // Test connection
       await this.db.admin().ping();
       this.isConnected = true;
-      
+
       console.log('✅ Connected to MongoDB Atlas');
-      
+
       // Initialize collections and seed data
       await this.initializeCollections();
-      
+
       return true;
     } catch (error) {
       console.error('❌ MongoDB connection failed:', error.message);
@@ -165,7 +171,7 @@ class Database {
 
       // Create indexes
       await this.createIndexes();
-      
+
       // Seed initial data
       await this.seedData();
 
@@ -178,15 +184,15 @@ class Database {
     try {
       // Users indexes
       await this.db.collection('users').createIndex({ email: 1 }, { unique: true });
-      
+
       // Hotels indexes
       await this.db.collection('hotels').createIndex({ location: 1 });
       await this.db.collection('hotels').createIndex({ rating: -1 });
-      
+
       // Bookings indexes
       await this.db.collection('bookings').createIndex({ user_id: 1 });
       await this.db.collection('bookings').createIndex({ hotel_id: 1 });
-      
+
       console.log('✅ Database indexes created');
     } catch (error) {
       console.error('❌ Error creating indexes:', error.message);
@@ -216,7 +222,7 @@ class Database {
             rating: 4.8
           },
           {
-            _id: "hotel2", 
+            _id: "hotel2",
             name: "Ocean View Resort",
             location: "Lekki, Lagos",
             description: "Beachfront resort with stunning ocean views",
@@ -333,7 +339,7 @@ class Database {
         await this.db.collection('deals').insertMany(deals);
         console.log('✅ Deals data seeded');
       }
-      
+
       // Add more deals if they don't exist
       const currentDeals = await this.db.collection('deals').countDocuments();
       if (currentDeals < 5) {
@@ -360,7 +366,7 @@ class Database {
             active: true
           }
         ];
-        
+
         // Insert only deals that don't exist
         for (const deal of additionalDeals) {
           try {
@@ -387,11 +393,11 @@ class Database {
 
       // Test basic operations
       await this.db.admin().ping();
-      
+
       // Count documents in each collection
       const collections = ['users', 'hotels', 'bookings', 'payments', 'contacts', 'deals'];
       const counts = {};
-      
+
       for (const collection of collections) {
         counts[collection] = await this.db.collection(collection).countDocuments();
       }

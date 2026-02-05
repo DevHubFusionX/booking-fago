@@ -220,6 +220,7 @@
     </div>
   </footer>
 
+  <script src="../public/js/api-config.js"></script>
   <script src="../public/js/lazy-loading.js"></script>
   <script src="../components/hotel-card.js"></script>
   <script src="../public/js/auth-navbar.js"></script>
@@ -229,7 +230,7 @@
     
     async function loadDealsFromAPI() {
       try {
-        const hotelsResponse = await fetch('/api/hotels');
+        const hotelsResponse = await fetch(`${window.API_BASE_URL || ''}/api/hotels`);
         const hotelsResult = await hotelsResponse.json();
         
         if (hotelsResult.success && hotelsResult.hotels) {

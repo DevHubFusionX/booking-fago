@@ -2,7 +2,7 @@
 function createHotelCard(hotel) {
   const price = hotel.rooms && hotel.rooms[0] ? hotel.rooms[0].price_per_night : 0;
   const image = hotel.images && hotel.images[0] ? hotel.images[0] : 'https://images.unsplash.com/photo-1566073771259-6a8506099945';
-  
+
   return `
     <div class="hotel-card lazy-content" onclick="location.href='/hotel/${hotel._id}'">
       <img data-src="${image}" alt="${hotel.name}" class="lazy-image" 
@@ -29,7 +29,7 @@ function createHotelListCard(hotel) {
   const price = hotel.rooms && hotel.rooms[0] ? hotel.rooms[0].price_per_night : 0;
   const image = hotel.images && hotel.images[0] ? hotel.images[0] : 'https://images.unsplash.com/photo-1566073771259-6a8506099945';
   const amenities = hotel.amenities || [];
-  
+
   return `
     <div class="hotel-list-card lazy-content">
       <img data-src="${image}" alt="${hotel.name}" class="lazy-image"
@@ -44,9 +44,9 @@ function createHotelListCard(hotel) {
             <span class="rating-score">${hotel.rating || 4.0} (${Math.floor(Math.random() * 100) + 50} reviews)</span>
           </div>
           <div class="amenities">
-            ${amenities.slice(0, 4).map(amenity => 
-              `<span class="amenity"><i class="fas fa-${getAmenityIcon(amenity)}"></i> ${amenity}</span>`
-            ).join('')}
+            ${amenities.slice(0, 4).map(amenity =>
+    `<span class="amenity"><i class="fas fa-${getAmenityIcon(amenity)}"></i> ${amenity}</span>`
+  ).join('')}
           </div>
           <p class="description">${hotel.description || ''}</p>
         </div>
@@ -67,20 +67,20 @@ function createStars(rating) {
   const fullStars = Math.floor(rating);
   const hasHalfStar = rating % 1 !== 0;
   let stars = '';
-  
+
   for (let i = 0; i < fullStars; i++) {
     stars += '<i class="fas fa-star"></i>';
   }
-  
+
   if (hasHalfStar) {
     stars += '<i class="fas fa-star-half-alt"></i>';
   }
-  
+
   const emptyStars = 5 - Math.ceil(rating);
   for (let i = 0; i < emptyStars; i++) {
     stars += '<i class="far fa-star"></i>';
   }
-  
+
   return stars;
 }
 
@@ -107,7 +107,7 @@ function getAmenityIcon(amenity) {
 // API functions
 async function fetchHotels() {
   try {
-    const response = await fetch('/api/hotels');
+    const response = await fetch(`${window.API_BASE_URL || ''}/api/hotels`);
     const data = await response.json();
     if (data.success) {
       return data.hotels;

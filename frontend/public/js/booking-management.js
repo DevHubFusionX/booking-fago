@@ -4,7 +4,7 @@ function createBookingCard(booking) {
   const checkoutDate = new Date(booking.check_out);
   const isUpcoming = checkinDate > new Date();
   const status = booking.booking_status || (booking.payment_status === 'paid' ? (isUpcoming ? 'confirmed' : 'completed') : 'pending');
-  
+
   return `
     <div class="booking-card ${isUpcoming ? 'upcoming' : 'past'} ${status}" data-status="${status}">
       <div class="booking-status">
@@ -45,9 +45,9 @@ function createBookingCard(booking) {
 
 async function viewBookingDetails(bookingId) {
   try {
-    const response = await fetch(`/api/bookings/${bookingId}`);
+    const response = await fetch(`${window.API_BASE_URL || ''}/api/bookings/${bookingId}`);
     const data = await response.json();
-    
+
     if (data.success) {
       showBookingModal(data.booking);
     } else {
@@ -73,14 +73,14 @@ async function cancelBooking(bookingId) {
   if (!confirm('Are you sure you want to cancel this booking? This action cannot be undone.')) {
     return;
   }
-  
+
   try {
-    const response = await fetch(`/api/bookings/${bookingId}/cancel`, {
+    const response = await fetch(`${window.API_BASE_URL || ''}/api/bookings/${bookingId}/cancel`, {
       method: 'POST'
     });
-    
+
     const data = await response.json();
-    
+
     if (data.success) {
       alert('Booking cancelled successfully');
       loadBookings(); // Reload bookings

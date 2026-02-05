@@ -10,14 +10,14 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 async function loadUserData() {
   try {
-    const response = await fetch('/api/user');
+    const response = await fetch(`${window.API_BASE_URL || ''}/api/user`);
     const data = await response.json();
-    
+
     if (!data.user) {
       window.location.href = '/login';
       return;
     }
-    
+
     document.getElementById('user-name').textContent = data.user.name;
     await loadBookings();
   } catch (error) {
@@ -27,19 +27,19 @@ async function loadUserData() {
 
 async function loadBookings() {
   const bookingsList = document.getElementById('bookings-list');
-  
+
   // Show skeletons while loading
   if (window.showSkeletons) {
     showSkeletons(bookingsList, 'booking-card', 3);
   }
-  
+
   try {
-    const response = await fetch('/api/bookings');
+    const response = await fetch(`${window.API_BASE_URL || ''}/api/bookings`);
     const data = await response.json();
-    
+
     // Simulate loading delay
     await new Promise(resolve => setTimeout(resolve, 500));
-    
+
     if (data.success && data.bookings.length > 0) {
       allBookings = data.bookings;
       const bookingCards = data.bookings.map(booking => createBookingCard(booking)).join('');
@@ -71,13 +71,13 @@ async function loadBookings() {
 function initDashboard() {
   // Tab navigation
   document.querySelectorAll('.nav-item').forEach(item => {
-    item.addEventListener('click', function() {
+    item.addEventListener('click', function () {
       const tab = this.dataset.tab;
-      
+
       // Update nav
       document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
       this.classList.add('active');
-      
+
       // Update sections
       document.querySelectorAll('.dashboard-section').forEach(section => section.classList.remove('active'));
       document.getElementById(tab).classList.add('active');
@@ -86,10 +86,10 @@ function initDashboard() {
 
   // Booking filters
   document.querySelectorAll('.filter-btn').forEach(btn => {
-    btn.addEventListener('click', function() {
+    btn.addEventListener('click', function () {
       document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
       this.classList.add('active');
-      
+
       const filter = this.dataset.filter;
       filterBookings(filter);
     });
@@ -98,12 +98,12 @@ function initDashboard() {
 
 function filterBookings(filter) {
   const bookings = document.querySelectorAll('.booking-card');
-  
+
   bookings.forEach(booking => {
     const status = booking.dataset.status;
     let show = false;
-    
-    switch(filter) {
+
+    switch (filter) {
       case 'all':
         show = true;
         break;
@@ -117,7 +117,7 @@ function filterBookings(filter) {
         show = status === 'cancelled';
         break;
     }
-    
+
     booking.style.display = show ? 'block' : 'none';
   });
 }

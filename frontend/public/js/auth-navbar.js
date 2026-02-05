@@ -1,14 +1,14 @@
 // Auth Navbar Helper
 async function updateNavbarAuth() {
   try {
-    const response = await fetch('/api/user');
+    const response = await fetch(`${window.API_BASE_URL || ''}/api/user`);
     const data = await response.json();
-    
+
     const authElement = document.querySelector('.nav-auth');
     const sidebarAuth = document.querySelector('.sidebar-auth');
-    
+
     console.log('Auth data:', data); // Debug log
-    
+
     if (data.user) {
       // User is logged in
       if (authElement) {
@@ -20,7 +20,7 @@ async function updateNavbarAuth() {
           </div>
         `;
       }
-      
+
       if (sidebarAuth) {
         sidebarAuth.innerHTML = `
           <div class="sidebar-user">
@@ -46,7 +46,7 @@ async function updateNavbarAuth() {
 
 async function logout() {
   try {
-    await fetch('/api/logout', { method: 'POST' });
+    await fetch(`${window.API_BASE_URL || ''}/api/logout`, { method: 'POST' });
     window.location.href = '/';
   } catch (error) {
     console.error('Logout failed:', error);

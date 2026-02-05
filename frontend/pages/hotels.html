@@ -190,6 +190,7 @@
     </div>
   </footer>
 
+  <script src="../public/js/api-config.js"></script>
   <script src="../public/js/lazy-loading.js"></script>
   <script src="../components/hotel-card.js"></script>
   <script>
@@ -203,7 +204,7 @@
     
     async function updateAuthState() {
       try {
-        const response = await fetch('/api/user', { credentials: 'include' });
+        const response = await fetch(`${window.API_BASE_URL || ''}/api/user`, { credentials: 'include' });
         const data = await response.json();
         
         const navAuth = document.querySelector('.nav-auth');
@@ -221,8 +222,8 @@
     
     async function logout() {
       try {
-        await fetch('/api/logout', { method: 'POST' });
-        window.location.href = '/';
+        await fetch(`${window.API_BASE_URL || ''}/api/logout`, { method: 'POST' });
+        window.location.reload();
       } catch (error) {
         console.error('Logout failed:', error);
       }
