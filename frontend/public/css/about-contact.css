@@ -11,6 +11,7 @@
   color: white;
   position: relative;
   overflow: hidden;
+  padding-top: 70px; /* Space for fixed navbar */
 }
 
 .about-hero .hero-overlay {

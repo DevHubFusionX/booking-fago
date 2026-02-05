@@ -10,6 +10,7 @@
   justify-content: center;
   color: white;
   text-align: center;
+  padding-top: 70px; /* Space for fixed navbar */
 }
 
 .hero-overlay {
