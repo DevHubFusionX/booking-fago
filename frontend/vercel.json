@@ -3,14 +3,14 @@
   "public": true,
   "cleanUrls": true,
   "rewrites": [
-    { "source": "/login", "destination": "/pages/auth.html" },
-    { "source": "/hotels", "destination": "/pages/hotels.html" },
-    { "source": "/hotel/:id", "destination": "/pages/hotel-details.html" },
-    { "source": "/booking", "destination": "/pages/booking.html" },
-    { "source": "/dashboard", "destination": "/pages/dashboard.html" },
-    { "source": "/contact", "destination": "/pages/contact.html" },
-    { "source": "/deals", "destination": "/pages/deals.html" },
-    { "source": "/about", "destination": "/pages/about.html" },
-    { "source": "/", "destination": "/pages/index.html" }
+    { "source": "/login", "destination": "/auth.html" },
+    { "source": "/hotels", "destination": "/hotels.html" },
+    { "source": "/hotel/:id", "destination": "/hotel-details.html" },
+    { "source": "/booking", "destination": "/booking.html" },
+    { "source": "/dashboard", "destination": "/dashboard.html" },
+    { "source": "/contact", "destination": "/contact.html" },
+    { "source": "/deals", "destination": "/deals.html" },
+    { "source": "/about", "destination": "/about.html" },
+    { "source": "/", "destination": "/index.html" }
   ]
 }

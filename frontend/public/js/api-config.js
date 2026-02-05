@@ -4,7 +4,8 @@
  */
 const API_CONFIG = {
     // Render backend URL
-    PRODUCTION_API_URL: 'https://fago-backend.onrender.com',
+    // Render backend URL
+    PRODUCTION_API_URL: 'https://booking-fago.onrender.com',
 
     // Local development backend URL
     DEVELOPMENT_API_URL: 'http://localhost:3000',
